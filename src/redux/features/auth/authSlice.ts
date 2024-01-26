@@ -4,6 +4,7 @@ import { RootState } from "../../store";
 export type TUser = {
   _id?: string;
   username?: string;
+  password?: string;
   role?: string;
   email?: string;
   iat?: number;
@@ -33,10 +34,14 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
     },
+    setRegister: (state, action) => {
+      const { user } = action.payload;
+      state.user = user;
+    },
   },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const { setUser, logout, setRegister } = authSlice.actions;
 
 export default authSlice.reducer;
 

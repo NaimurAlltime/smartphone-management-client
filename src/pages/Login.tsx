@@ -4,7 +4,7 @@ import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { TUser, setUser } from "../redux/features/auth/authSlice";
 import { verifyToken } from "../utils/verifyToken";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import SMForm from "../components/form/SMForm";
 import SMInput from "../components/form/SMInput";
@@ -48,6 +48,9 @@ function Login() {
       <SMForm onSubmit={handleLogin} defaultValues={defaultValues}>
         <SMInput type="text" name="username" label="Username:" />
         <SMInput type="text" name="password" label="Password:" />
+        <p style={{ textAlign: "center", marginBottom: "10px" }}>
+          Don't have an account? <Link to="/register">Register</Link>
+        </p>
         <Button htmlType="submit">Login</Button>
       </SMForm>
     </Row>
