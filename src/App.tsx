@@ -1,9 +1,7 @@
+import MainLayout from "./components/layout/MainLayout";
+
 function App() {
-  return (
-    <>
-      <h2>smartphone management system</h2>
-    </>
-  );
+  return <MainLayout />;
 }
 
 export default App;
