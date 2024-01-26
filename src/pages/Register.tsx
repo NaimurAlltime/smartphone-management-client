@@ -15,7 +15,7 @@ function Register() {
   const dispatch = useAppDispatch();
 
   const handleRegister = async (data: FieldValues) => {
-    console.log(data);
+    // console.log(data);
 
     try {
       const userInfo = {
