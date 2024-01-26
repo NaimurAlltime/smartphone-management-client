@@ -8,6 +8,7 @@ function CreateSmartphone() {
   const handleSubmit = async (data: FieldValues) => {
     console.log(data);
   };
+
   return (
     <Row justify={"center"} align={"middle"} style={{ height: "100vh" }}>
       <SMForm onSubmit={handleSubmit}>
