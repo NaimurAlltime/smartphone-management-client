@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     // errorElement: <ErrorPage />,
   },
   {
-    path: "/smartphone",
+    path: "/",
     element: <App />,
     children: routeGenerator(smartphonePaths),
   },
