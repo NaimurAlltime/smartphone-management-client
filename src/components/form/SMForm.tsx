@@ -15,7 +15,7 @@ type TFormProps = {
   children: ReactNode;
 } & TFormConfig;
 
-function CRForm({ onSubmit, children, defaultValues }: TFormProps) {
+function SMForm({ onSubmit, children, defaultValues }: TFormProps) {
   const formconfig: TFormConfig = {};
 
   if (defaultValues) {
@@ -30,4 +30,4 @@ function CRForm({ onSubmit, children, defaultValues }: TFormProps) {
   );
 }
 
-export default CRForm;
+export default SMForm;

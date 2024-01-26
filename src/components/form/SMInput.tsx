@@ -7,7 +7,7 @@ type TInputProps = {
   label?: string;
 };
 
-function CRInput({ type, name, label }: TInputProps) {
+function SMInput({ type, name, label }: TInputProps) {
   return (
     <div style={{ marginBottom: "15px" }}>
       {label ? label : null}
@@ -19,4 +19,4 @@ function CRInput({ type, name, label }: TInputProps) {
   );
 }
 
-export default CRInput;
+export default SMInput;

@@ -6,8 +6,8 @@ import { TUser, setUser } from "../redux/features/auth/authSlice";
 import { verifyToken } from "../utils/verifyToken";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import CRForm from "../components/form/CRForm";
-import CRInput from "../components/form/CRInput";
+import SMForm from "../components/form/SMForm";
+import SMInput from "../components/form/SMInput";
 
 function Login() {
   const navigate = useNavigate();
@@ -45,11 +45,11 @@ function Login() {
 
   return (
     <Row justify={"center"} align={"middle"} style={{ height: "100vh" }}>
-      <CRForm onSubmit={handleLogin} defaultValues={defaultValues}>
-        <CRInput type="text" name="username" label="Username:" />
-        <CRInput type="text" name="password" label="Password:" />
+      <SMForm onSubmit={handleLogin} defaultValues={defaultValues}>
+        <SMInput type="text" name="username" label="Username:" />
+        <SMInput type="text" name="password" label="Password:" />
         <Button htmlType="submit">Login</Button>
-      </CRForm>
+      </SMForm>
     </Row>
   );
 }
