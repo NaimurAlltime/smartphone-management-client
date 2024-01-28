@@ -1,0 +1,5 @@
+.custom-sidebar-bg {
+  background: #0a635f;
+  background: -webkit-linear-gradient(to right, #0a635f, #9cedee);
+  background: linear-gradient(to right, #0a635f, #0a454e);
+}

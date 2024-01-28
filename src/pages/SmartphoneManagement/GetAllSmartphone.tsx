@@ -1,5 +1,13 @@
+import { useGetAllSmartphoneQuery } from "../../redux/features/smartphone/smartphoneApi";
+
 function GetAllSmartphone() {
-  return <div>GetAllSmartphone</div>;
+  const { data: smartphones } = useGetAllSmartphoneQuery(undefined);
+  console.log(smartphones?.data);
+  return (
+    <>
+      <h2>all smartphone</h2>
+    </>
+  );
 }
 
 export default GetAllSmartphone;

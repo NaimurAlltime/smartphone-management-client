@@ -1,9 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./features/auth/authSlice";
-import smartphoneReducer from "./features/smartphone/smartphoneSlice";
 import { baseApi } from "./api/baseApi";
 import {
-  persistReducer,
   persistStore,
   FLUSH,
   REHYDRATE,
@@ -12,21 +9,10 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-
-const persistConfig = {
-  key: "auth",
-  storage,
-};
-
-const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+import { rootReducer } from "./rootReducer";
 
 export const store = configureStore({
-  reducer: {
-    [baseApi.reducerPath]: baseApi.reducer,
-    auth: persistedAuthReducer,
-    smartphone: smartphoneReducer,
-  },
+  reducer: rootReducer,
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({
       serializableCheck: {

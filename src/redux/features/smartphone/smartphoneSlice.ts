@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
 import { TSmartPhone } from "../../../types/smartphone";
 
-type TinitialState = {
+type TSmartphoneState = {
   smartphones: TSmartPhone[];
 };
 
-const initialState: TinitialState = {
+const initialState: TSmartphoneState = {
   smartphones: [],
 };
 
@@ -14,15 +13,35 @@ const smartphoneSlice = createSlice({
   name: "smartphones",
   initialState,
   reducers: {
-    addSmartphone: (state, action: PayloadAction<TSmartPhone>) => {
-      state.smartphones.push({ ...action.payload });
+    setSmartphones: (state, action) => {
+      const { smartphones } = action.payload;
+      state.smartphones = smartphones;
     },
-    // removeSmartphone: (state, action: PayloadAction<string>) => {
-    //   state.todos = state.smartphones.filter((todo) => todo.id != action.payload);
-    // },
+    addSmartphone: (state, action) => {
+      state.smartphones.push(action.payload);
+    },
+    updateSmartphone: (state, action) => {
+      const { id, updatedSmartphone } = action.payload;
+      const index = state.smartphones.findIndex((s) => s._id === id);
+      if (index !== -1) {
+        state.smartphones[index] = {
+          ...state.smartphones[index],
+          ...updatedSmartphone,
+        };
+      }
+    },
+    deleteSmartphone: (state, action) => {
+      const id = action.payload;
+      state.smartphones = state.smartphones.filter((s) => s._id !== id);
+    },
   },
 });
 
-export const { addSmartphone } = smartphoneSlice.actions;
+export const {
+  setSmartphones,
+  addSmartphone,
+  updateSmartphone,
+  deleteSmartphone,
+} = smartphoneSlice.actions;
 
 export default smartphoneSlice.reducer;

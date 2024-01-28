@@ -11,7 +11,14 @@ const smartphoneApi = baseApi.injectEndpoints({
       }),
       //   invalidatesTags: ["all-smartphone"],
     }),
+    getAllSmartphone: builder.query({
+      query: () => ({
+        url: "/smartphones",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useAddSmartphoneApiMutation } = smartphoneApi;
+export const { useAddSmartphoneApiMutation, useGetAllSmartphoneQuery } =
+  smartphoneApi;

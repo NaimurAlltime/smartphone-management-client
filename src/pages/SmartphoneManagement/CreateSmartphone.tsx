@@ -1,83 +1,66 @@
-import { Button, Row } from "antd";
-import SMInput from "../../components/form/SMInput";
-import SMForm from "../../components/form/SMForm";
 import { FieldValues } from "react-hook-form";
-import SMTextarea from "../../components/form/SMTextarea";
+import { useAddSmartphoneApiMutation } from "../../redux/features/smartphone/smartphoneApi";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../redux/hooks";
+import { toast } from "sonner";
+import { setSmartphones } from "../../redux/features/smartphone/smartphoneSlice";
 
 function CreateSmartphone() {
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
+  // add smartphone for server
+  const [addSmartphoneApi, { data, isLoading, isSuccess, isError }] =
+    useAddSmartphoneApiMutation();
+
+  console.log({ data, isLoading, isSuccess, isError });
+
   const handleSubmit = async (data: FieldValues) => {
-    console.log(data);
+    // console.log(data);
+    try {
+      const addSmartphone = {
+        name: data.name,
+        price: Number(data.price),
+        quantity: Number(data.quantity),
+        description: data.description,
+        category: data.category,
+        releaseDate: data.releaseDate,
+        brand: data.brand,
+        model: data.model,
+        operatingSystem: data.operatingSystem,
+        storageCapacity: Number(data.storageCapacity),
+        screenSize: Number(data.screenSize),
+        cameraQuality: data.cameraQuality,
+        batteryLife: data.batteryLife,
+      };
+
+      console.log(addSmartphone);
+
+      // const response = await addSmartphoneApi(addSmartphone);
+      // dispatch(addSmartphone(response));
+
+      const result = await addSmartphoneApi(addSmartphone).unwrap();
+
+      // dispatch(addSmartphone({ user: res }));
+
+      dispatch(setSmartphones({ smartphones: result }));
+
+      if (result?.success) {
+        toast.success(result?.message, {
+          duration: 2000,
+        });
+        toast.success("Login Successfully done!", {
+          duration: 2000,
+        });
+        navigate(`/get-all-smartphone`);
+      }
+    } catch (error) {
+      toast.error("something went wrong!", { duration: 2000 });
+    }
   };
 
-  return (
-    <Row justify={"center"} align={"middle"} style={{ height: "100vh" }}>
-      <SMForm onSubmit={handleSubmit}>
-        <div style={{ display: "flex" }}>
-          <div style={{ marginRight: "7px", width: "50%" }}>
-            <SMInput type="text" name="name" label="Smartphone Name:" />
-          </div>
-          <div style={{ width: "50%" }}>
-            <SMInput type="text" name="price" label="Price:" />
-          </div>
-        </div>
-
-        <div style={{ display: "flex" }}>
-          <div style={{ marginRight: "7px", width: "50%" }}>
-            <SMInput type="text" name="quantity" label="Quantity:" />
-          </div>
-          <div style={{ width: "50%" }}>
-            <SMInput type="text" name="category" label="Category:" />
-          </div>
-        </div>
-
-        <div style={{ display: "flex" }}>
-          <div style={{ marginRight: "7px", width: "50%" }}>
-            <SMInput type="text" name="batteryLife" label="Battery Life:" />
-          </div>
-          <div style={{ width: "50%" }}>
-            <SMInput type="text" name="releaseDate" label="releaseDate:" />
-          </div>
-        </div>
-
-        <div style={{ display: "flex" }}>
-          <div style={{ marginRight: "7px", width: "50%" }}>
-            <SMInput type="text" name="brand" label="Brand:" />
-          </div>
-          <div style={{ width: "50%" }}>
-            <SMInput type="text" name="model" label="Model:" />
-          </div>
-        </div>
-
-        <div style={{ display: "flex" }}>
-          <div style={{ marginRight: "7px", width: "50%" }}>
-            <SMInput
-              type="text"
-              name="operatingSystem"
-              label="Operating System:"
-            />
-          </div>
-          <div style={{ width: "50%" }}>
-            <SMInput
-              type="text"
-              name="storageCapacity"
-              label="Storage Capacity:"
-            />
-          </div>
-        </div>
-
-        <div style={{ display: "flex" }}>
-          <div style={{ marginRight: "7px", width: "50%" }}>
-            <SMInput type="text" name="screenSize" label="Screen Size:" />
-          </div>
-          <div style={{ width: "50%" }}>
-            <SMInput type="text" name="cameraQuality" label="Camera Quality:" />
-          </div>
-        </div>
-        <SMTextarea name="description" label="Description:" />
-        <Button htmlType="submit">Submit</Button>
-      </SMForm>
-    </Row>
-  );
+  return <h2>create smartphone</h2>;
 }
 
 export default CreateSmartphone;
