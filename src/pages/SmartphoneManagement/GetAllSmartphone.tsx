@@ -1,7 +1,5 @@
 import { useGetAllSmartphoneQuery } from "../../redux/features/smartphone/smartphoneApi";
-import { MdOutlineAddShoppingCart } from "react-icons/md";
-import { FaRegEdit } from "react-icons/fa";
-import { RiDeleteBinLine } from "react-icons/ri";
+import DataTable from "./DataTable";
 
 function GetAllSmartphone() {
   const { data: smartphones } = useGetAllSmartphoneQuery(undefined);
@@ -51,29 +49,9 @@ function GetAllSmartphone() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b dark:border-neutral-500">
-                    <td className="whitespace-nowrap px-6 py-4 font-medium">
-                      1
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4">Mark</td>
-                    <td className="whitespace-nowrap px-6 py-4">Otto</td>
-                    <td className="whitespace-nowrap px-6 py-4">@mdo</td>
-                    <td className="whitespace-nowrap px-6 py-4">@mdo</td>
-                    <td className="whitespace-nowrap px-6 py-4">@mdo</td>
-                    <td className="whitespace-nowrap px-6 py-4">@mdo</td>
-                    <td className="whitespace-nowrap px-6 py-4">@mdo</td>
-                    <td className="whitespace-nowrap px-6 py-4 felx justify-center items-center">
-                      <button>
-                        <MdOutlineAddShoppingCart className="text-2xl" />
-                      </button>
-                      <button className="mx-3">
-                        <FaRegEdit className="text-2xl" />
-                      </button>
-                      <button>
-                        <RiDeleteBinLine className="text-2xl" />
-                      </button>
-                    </td>
-                  </tr>
+                  {smartphones?.data.map((item) => (
+                    <DataTable key={item._id} item={item} />
+                  ))}
                 </tbody>
               </table>
             </div>

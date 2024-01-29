@@ -1,92 +1,50 @@
-import { Table, Spin, Alert } from "antd";
-import { useGetAllSmartphoneQuery } from "../../redux/features/smartphone/smartphoneApi";
+import { MdOutlineAddShoppingCart } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
+import { RiDeleteBinLine } from "react-icons/ri";
 
-const DataTable = () => {
-  const {
-    data: smartphones,
-    isLoading,
-    isError,
-  } = useGetAllSmartphoneQuery(undefined);
+interface Item {
+  name: string;
+  category: string;
+  price: number;
+  quantity: number;
+  brand: string;
+  model: string;
+  storageCapacity: string;
+}
 
-  console.log(smartphones);
+interface DataTableProps {
+  item: Item;
+}
 
-  const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-    },
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      key: "quantity",
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Category",
-      dataIndex: "category",
-      key: "category",
-    },
-    {
-      title: "ReleaseDate",
-      dataIndex: "releaseDate",
-      key: "releaseDate",
-    },
-    {
-      title: "Brand",
-      dataIndex: "brand",
-      key: "brand",
-    },
-    {
-      title: "Model",
-      dataIndex: "model",
-      key: "model",
-    },
-    {
-      title: "OperatingSystem",
-      dataIndex: "operatingSystem",
-      key: "operatingSystem",
-    },
-    {
-      title: "StorageCapacity",
-      dataIndex: "storageCapacity",
-      key: "storageCapacity",
-    },
-    {
-      title: "ScreenSize",
-      dataIndex: "screenSize",
-      key: "screenSize",
-    },
-    {
-      title: "CameraQuality",
-      dataIndex: "cameraQuality",
-      key: "cameraQuality",
-    },
-    {
-      title: "BatteryLife",
-      dataIndex: "batteryLife",
-      key: "batteryLife",
-    },
-  ];
-
-  if (isLoading) {
-    return <Spin />;
-  }
-
-  if (isError) {
-    return <Alert message={`Error: ${isError}`} type="error" />;
-  }
-
-  return <Table dataSource={smartphones?.data} columns={columns} />;
-};
+function DataTable({ item }: DataTableProps) {
+  return (
+    <>
+      <tr className="border-b dark:border-neutral-500">
+        <td className="whitespace-nowrap px-6 py-4 font-medium">1</td>
+        <td className="whitespace-nowrap px-6 py-4"> {item.name} </td>
+        <td className="whitespace-nowrap px-6 py-4"> {item.category} </td>
+        <td className="whitespace-nowrap px-6 py-4"> {item.price} </td>
+        <td className="whitespace-nowrap px-6 py-4"> {item.quantity} </td>
+        <td className="whitespace-nowrap px-6 py-4"> {item.brand} </td>
+        <td className="whitespace-nowrap px-6 py-4"> {item.model} </td>
+        <td className="whitespace-nowrap px-6 py-4">
+          {" "}
+          {item.storageCapacity}{" "}
+        </td>
+        <td className="whitespace-nowrap px-6 py-4 felx justify-center items-center">
+          <button>
+            <MdOutlineAddShoppingCart className="text-2xl" />
+          </button>
+          <button className="mx-3">
+            <FaRegEdit className="text-2xl" />
+          </button>
+          <button>
+            <RiDeleteBinLine className="text-2xl" />
+          </button>
+        </td>
+      </tr>
+    </>
+  );
+}
 
 export default DataTable;
