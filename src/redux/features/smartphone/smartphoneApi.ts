@@ -9,16 +9,27 @@ const smartphoneApi = baseApi.injectEndpoints({
         method: "POST",
         body: smartphone,
       }),
-      //   invalidatesTags: ["all-smartphone"],
+      invalidatesTags: ["smartphone"],
     }),
     getAllSmartphone: builder.query({
       query: () => ({
         url: "/smartphones",
         method: "GET",
       }),
+      providesTags: ["smartphone"],
+    }),
+    deleteSmartphone: builder.mutation({
+      query: (id) => ({
+        url: `/smartphones/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["smartphone"],
     }),
   }),
 });
 
-export const { useAddSmartphoneApiMutation, useGetAllSmartphoneQuery } =
-  smartphoneApi;
+export const {
+  useAddSmartphoneApiMutation,
+  useGetAllSmartphoneQuery,
+  useDeleteSmartphoneMutation,
+} = smartphoneApi;

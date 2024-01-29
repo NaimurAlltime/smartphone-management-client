@@ -3,7 +3,7 @@ import DataTable from "./DataTable";
 
 function GetAllSmartphone() {
   const { data: smartphones } = useGetAllSmartphoneQuery(undefined);
-  console.log(smartphones?.data);
+  // console.log(smartphones?.data);
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 text-center md:px-6 xl:px-7.5">

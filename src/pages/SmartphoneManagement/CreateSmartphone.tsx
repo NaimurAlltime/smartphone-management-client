@@ -1,16 +1,12 @@
 import { FieldValues } from "react-hook-form";
 import { useAddSmartphoneApiMutation } from "../../redux/features/smartphone/smartphoneApi";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../redux/hooks";
 import "../../styles/dashboard.css";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { setSmartphones } from "../../redux/features/smartphone/smartphoneSlice";
 
 function CreateSmartphone() {
   const navigate = useNavigate();
-
-  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -47,7 +43,7 @@ function CreateSmartphone() {
 
       const result = await addSmartphoneApi(addSmartphone as any).unwrap();
 
-      dispatch(setSmartphones({ smartphones: result }));
+      // dispatch(setSmartphones({ smartphones: result }));
 
       if (result?.success) {
         toast.success(result?.message, {
