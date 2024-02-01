@@ -11,11 +11,30 @@ const smartphoneApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["smartphone"],
     }),
+
     getAllSmartphone: builder.query({
-      query: () => ({
-        url: "/smartphones",
-        method: "GET",
-      }),
+      query: ({
+        brand,
+        category,
+        operatingSystem,
+        storageCapacity,
+        releaseDate,
+        screenSize,
+      }) => {
+        const params = new URLSearchParams();
+
+        if (brand) params.append("brand", brand);
+        if (category) params.append("category", category);
+        if (operatingSystem) params.append("operatingSystem", operatingSystem);
+        if (storageCapacity) params.append("storageCapacity", storageCapacity);
+        if (releaseDate) params.append("releaseDate", releaseDate);
+        if (screenSize) params.append("screenSize", screenSize);
+
+        return {
+          url: `/smartphones?${params}`,
+          method: "GET",
+        };
+      },
       providesTags: ["smartphone"],
     }),
     deleteSmartphone: builder.mutation({
