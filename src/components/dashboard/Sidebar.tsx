@@ -2,12 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
-import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdOutlineAddHomeWork } from "react-icons/md";
 import { TbPackages } from "react-icons/tb";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import logo from "../../assets/logo/logo.png";
 import "../../styles/dashboard.css";
+import { MdOutlineManageHistory } from "react-icons/md";
+import { MdOutlineManageSearch } from "react-icons/md";
+import { IoMdAddCircleOutline } from "react-icons/io";
+import { IoListCircleOutline } from "react-icons/io5";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -115,7 +118,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/dashboard/admin-home"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
+                  className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
                     pathname.includes("/dashboard/admin-home") &&
                     "bg-gray-900 dark:bg-gray-500"
                   }`}
@@ -136,7 +139,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <React.Fragment>
                       <NavLink
                         to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
+                        className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
                           (pathname === "/smartphone" ||
                             pathname.includes("smartphone")) &&
                           "bg-gray-900 dark:bg-gray-500"
@@ -174,40 +177,43 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           !open && "hidden"
                         }`}
                       >
-                        <ul className="mt-1 mb-2 flex flex-col gap-2.5 pl-6">
-                          <li>
-                            <NavLink
-                              to="/add-smartphone"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-gray-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Add Smartphone
-                            </NavLink>
-                          </li>
+                        <ul className="mt-1 mb-2 flex flex-col gap-1 pl-6">
                           <li>
                             <NavLink
                               to="/all-smartphone"
                               className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-gray-400 duration-300 ease-in-out hover:text-white " +
+                                "group relative flex items-center gap-1 rounded-md px-4 font-medium text-gray-400 duration-300 ease-in-out hover:text-white " +
                                 (isActive && "!text-white")
                               }
                             >
+                              <IoListCircleOutline className="text-xl" />
                               All Smartphone
                             </NavLink>
                           </li>
                           <li>
                             <NavLink
+                              to="/add-smartphone"
+                              className={({ isActive }) =>
+                                "group relative flex items-center gap-1 rounded-md px-4 font-medium text-gray-400 duration-300 ease-in-out hover:text-white " +
+                                (isActive && "!text-white")
+                              }
+                            >
+                              <IoMdAddCircleOutline className="text-xl" />
+                              Add Smartphone
+                            </NavLink>
+                          </li>
+
+                          {/* <li>
+                            <NavLink
                               to="/update-smartphone"
                               className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-gray-400 duration-300 ease-in-out hover:text-white " +
+                                "group relative flex items-center gap-1 rounded-md px-4 font-medium text-gray-400 duration-300 ease-in-out hover:text-white " +
                                 (isActive && "!text-white")
                               }
                             >
                               Update Smartphone
                             </NavLink>
-                          </li>
+                          </li> */}
                         </ul>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
@@ -220,12 +226,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/sales-management"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
+                  className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
                     pathname.includes("sales-management") &&
                     "bg-gray-900 dark:bg-gray-500"
                   }`}
                 >
-                  <HiOutlinePhotograph className="text-xl" />
+                  <MdOutlineManageSearch className="text-xl" />
                   Sales Management
                 </NavLink>
               </li>
@@ -234,12 +240,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/history-management"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
+                  className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
                     pathname.includes("history-management") &&
                     "bg-gray-900 dark:bg-gray-500"
                   }`}
                 >
-                  <HiOutlinePhotograph className="text-xl" />
+                  <MdOutlineManageHistory className="text-xl" />
                   History Management
                 </NavLink>
               </li>
@@ -248,7 +254,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/profile"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
+                  className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
                     pathname.includes("profile") &&
                     "bg-gray-900 dark:bg-gray-500"
                   }`}
@@ -288,7 +294,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
+                  className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
                     pathname.includes("chart") && "bg-gray-900 dark:bg-gray-500"
                   }`}
                 >
@@ -302,7 +308,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <li>
                 <NavLink
                   to="/"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
+                  className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
                     pathname.includes("chart") && "bg-gray-900 dark:bg-gray-500"
                   }`}
                 >
@@ -323,7 +329,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <React.Fragment>
                       <NavLink
                         to="#"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
+                        className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
                           (pathname === "/auth" || pathname.includes("auth")) &&
                           "bg-gray-900 dark:bg-gray-500"
                         }`}
@@ -388,12 +394,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           !open && "hidden"
                         }`}
                       >
-                        <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
+                        <ul className="mt-4 mb-5.5 flex flex-col gap-1 pl-6">
                           <li>
                             <NavLink
                               to="/auth/signin"
                               className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-gray-300 duration-300 ease-in-out hover:text-white " +
+                                "group relative flex items-center gap-1 rounded-md px-4 font-medium text-gray-300 duration-300 ease-in-out hover:text-white " +
                                 (isActive && "!text-white")
                               }
                             >
@@ -404,7 +410,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             <NavLink
                               to="/auth/signup"
                               className={({ isActive }) =>
-                                "group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-gray-300 duration-300 ease-in-out hover:text-white " +
+                                "group relative flex items-center gap-1 rounded-md px-4 font-medium text-gray-300 duration-300 ease-in-out hover:text-white " +
                                 (isActive && "!text-white")
                               }
                             >
