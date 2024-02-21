@@ -1,10 +1,15 @@
 import { toast } from "sonner";
 import { FieldValues, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useAddSmartphoneApiMutation } from "../../redux/features/smartphone/smartphoneApi";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useUpdateSmartphoneMutation } from "../../redux/features/smartphone/smartphoneApi";
 
 function UpdateSmartphone() {
   const navigate = useNavigate();
+  const cureentData = useLocation();
+  const { data } = cureentData?.state || {};
+  // console.log(data);
+  // const { id } = useParams();
+  // const { data: currentData } = useGetSmartphoneByIdQuery(id);
 
   const {
     register,
@@ -12,48 +17,78 @@ function UpdateSmartphone() {
     formState: { errors },
   } = useForm();
 
-  // add smartphone for server
-  const [addSmartphoneApi, { data, isLoading, isSuccess, isError }] =
-    useAddSmartphoneApiMutation();
+  const {
+    name,
+    category,
+    releaseDate,
+    price,
+    quantity,
+    brand,
+    model,
+    operatingSystem,
+    storageCapacity,
+    screenSize,
+    cameraQuality,
+    batteryLife,
+    description,
+  } = data;
 
-  console.log({ data, isLoading, isSuccess, isError });
+  const [updateSmartphone] = useUpdateSmartphoneMutation(); //returns array
 
-  const onSubmit = async (data: FieldValues) => {
-    // console.log(data);
+  const onSubmit = async (updateData: any) => {
+    const {
+      name,
+      category,
+      releaseDate,
+      price,
+      quantity,
+      brand,
+      model,
+      operatingSystem,
+      storageCapacity,
+      screenSize,
+      cameraQuality,
+      batteryLife,
+      description,
+    } = updateData;
+
+    const allData = {
+      _id: data._id,
+      name,
+      category,
+      releaseDate,
+      price,
+      quantity,
+      brand,
+      model,
+      operatingSystem,
+      storageCapacity,
+      screenSize,
+      cameraQuality,
+      batteryLife,
+      description,
+    };
+
+    console.log(allData);
+
+    // if (result) {
+    //   // toast.success(result?.message, {
+    //   //   duration: 2000,
+    //   // });
+    //   toast.success("Smartphone Added Successfully!", {
+    //     duration: 2000,
+    //   });
+    //   navigate(`/all-smartphone`);
+    // }
+    // updateSmartphone({
+    //   id: _id,
+    //   body: modifiedData,
+    // });
+
     try {
-      const addSmartphone = {
-        name: data.name,
-        price: Number(data.price),
-        quantity: Number(data.quantity),
-        description: data.description,
-        category: data.category,
-        releaseDate: data.releaseDate,
-        brand: data.brand,
-        model: data.model,
-        operatingSystem: data.operatingSystem,
-        storageCapacity: Number(data.storageCapacity),
-        screenSize: Number(data.screenSize),
-        cameraQuality: data.cameraQuality,
-        batteryLife: data.batteryLife,
-      };
-
-      // console.log(addSmartphone);
-
-      const result = await addSmartphoneApi(addSmartphone as any).unwrap();
-
-      // dispatch(setSmartphones({ smartphones: result }));
-
-      if (result?.success) {
-        toast.success(result?.message, {
-          duration: 2000,
-        });
-        toast.success("Smartphone Added Successfully!", {
-          duration: 2000,
-        });
-        navigate(`/all-smartphone`);
-      }
-    } catch (error) {
-      toast.error("something went wrong!", { duration: 2000 });
+      await updateSmartphone(allData).unwrap();
+    } catch (err) {
+      console.log(err, "error updated");
     }
   };
 
@@ -74,9 +109,10 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="text"
-                {...register("name", { required: true })}
+                {...register("name")}
                 id="name"
                 placeholder="Enter your name"
+                defaultValue={name}
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
               {errors.name && (
@@ -90,8 +126,9 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="number"
-                {...register("price", { required: true })}
+                {...register("price")}
                 id="price"
+                defaultValue={price}
                 placeholder="Enter price"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
@@ -108,8 +145,9 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="number"
-                {...register("quantity", { required: true })}
+                {...register("quantity")}
                 id="quantity"
+                defaultValue={quantity}
                 placeholder="Enter quantity"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
@@ -124,8 +162,9 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="text"
-                {...register("category", { required: true })}
+                {...register("category")}
                 id="category"
+                defaultValue={category}
                 placeholder="Enter category"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
@@ -142,13 +181,14 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="date"
-                {...register("releaseDate", { required: true })}
+                {...register("releaseDate")}
                 id="releaseDate"
                 placeholder="Enter releaseDate"
+                defaultValue={releaseDate}
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
               {errors.releaseDate && (
-                <span className="text-red-600">brand is required</span>
+                <span className="text-red-600">Release Date is required</span>
               )}
             </div>
 
@@ -158,13 +198,14 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="text"
-                {...register("brand", { required: true })}
+                {...register("brand")}
                 id="brand"
+                defaultValue={brand}
                 placeholder="Enter brand"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
               {errors.category && (
-                <span className="text-red-600">Category is required</span>
+                <span className="text-red-600">brand is required</span>
               )}
             </div>
           </div>
@@ -176,8 +217,9 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="text"
-                {...register("model", { required: true })}
+                {...register("model")}
                 id="model"
+                defaultValue={model}
                 placeholder="Enter model"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
@@ -192,8 +234,9 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="text"
-                {...register("operatingSystem", { required: true })}
+                {...register("operatingSystem")}
                 id="operatingSystem"
+                defaultValue={operatingSystem}
                 placeholder="Enter operatingSystem"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
@@ -212,8 +255,9 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="number"
-                {...register("storageCapacity", { required: true })}
+                {...register("storageCapacity")}
                 id="storageCapacity"
+                defaultValue={storageCapacity}
                 placeholder="Enter storageCapacity"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
@@ -230,9 +274,10 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="text"
-                {...register("screenSize", { required: true })}
+                {...register("screenSize")}
                 id="screenSize"
                 placeholder="Enter screenSize"
+                defaultValue={screenSize}
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
               {errors.screenSize && (
@@ -248,8 +293,9 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="text"
-                {...register("cameraQuality", { required: true })}
+                {...register("cameraQuality")}
                 id="cameraQuality"
+                defaultValue={cameraQuality}
                 placeholder="Enter cameraQuality"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
@@ -264,8 +310,9 @@ function UpdateSmartphone() {
               </label>
               <input
                 type="text"
-                {...register("batteryLife", { required: true })}
+                {...register("batteryLife")}
                 id="screenSize"
+                defaultValue={batteryLife}
                 placeholder="Enter batteryLife"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
@@ -283,8 +330,9 @@ function UpdateSmartphone() {
               id="description"
               // cols={6}
               rows={3}
-              {...register("description", { required: true })}
+              {...register("description")}
               placeholder="Enter description"
+              defaultValue={description}
               className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
             {errors.description && (

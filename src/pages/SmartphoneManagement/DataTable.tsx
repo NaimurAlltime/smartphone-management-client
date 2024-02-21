@@ -1,8 +1,9 @@
-import { MdOutlineAddShoppingCart } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useDeleteSmartphoneMutation } from "../../redux/features/smartphone/smartphoneApi";
 import Swal from "sweetalert2";
+import { TiShoppingCart } from "react-icons/ti";
+import { Link } from "react-router-dom";
 
 interface Item {
   _id?: string;
@@ -60,11 +61,15 @@ function DataTable({ item }: DataTableProps) {
         </td>
         <td className="whitespace-nowrap px-6 py-4 felx justify-center items-center">
           <button>
-            <MdOutlineAddShoppingCart className="text-2xl" />
+            <TiShoppingCart className="text-2xl" />
           </button>
-          <button className="mx-3">
-            <FaRegEdit className="text-2xl" />
-          </button>
+
+          <Link to={`/update-smartphone/${_id}`} state={{ data: item }}>
+            <button className="mx-3">
+              <FaRegEdit className="text-2xl" />
+            </button>
+          </Link>
+
           <button onClick={() => handleDelete(_id as string)}>
             <RiDeleteBinLine className="text-2xl" />
           </button>

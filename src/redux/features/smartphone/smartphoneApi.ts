@@ -37,6 +37,28 @@ const smartphoneApi = baseApi.injectEndpoints({
       },
       providesTags: ["smartphone"],
     }),
+    getSmartphoneById: builder.query({
+      query: (id) => ({
+        url: `/smartphones/${id}`,
+      }),
+      providesTags: ["smartphone"],
+    }),
+    // updateSmartphone: builder.mutation({
+    //   query: (data) => ({
+    //     url: `/smartphones/${data.id}`,
+    //     method: "PUT",
+    //     body: data?.data,
+    //   }),
+    //   invalidatesTags: ["smartphone"],
+    // }),
+    updateSmartphone: builder.mutation({
+      query: (data) => ({
+        url: `/smartphones/${data._id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["smartphone"],
+    }),
     deleteSmartphone: builder.mutation({
       query: (id) => ({
         url: `/smartphones/${id}`,
@@ -50,5 +72,7 @@ const smartphoneApi = baseApi.injectEndpoints({
 export const {
   useAddSmartphoneApiMutation,
   useGetAllSmartphoneQuery,
+  useGetSmartphoneByIdQuery,
+  useUpdateSmartphoneMutation,
   useDeleteSmartphoneMutation,
 } = smartphoneApi;

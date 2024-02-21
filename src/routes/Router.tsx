@@ -23,7 +23,7 @@ const router = createBrowserRouter([
         element: <GetAllSmartphone />,
       },
       {
-        path: "update-smartphone",
+        path: "update-smartphone/:id",
         element: <UpdateSmartphone />,
       },
 
