@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useGetAllSmartphoneQuery } from "../../redux/features/smartphone/smartphoneApi";
 import DataTable from "./DataTable";
+// Initialization for ES Users
+import { Modal, Ripple, initTE } from "tw-elements";
+
+initTE({ Modal, Ripple });
 
 function GetAllSmartphone() {
   const [brand, setBrand] = useState("");

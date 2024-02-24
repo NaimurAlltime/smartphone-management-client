@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUpdateSmartphoneMutation } from "../../redux/features/smartphone/smartphoneApi";
 
@@ -7,9 +7,6 @@ function UpdateSmartphone() {
   const navigate = useNavigate();
   const cureentData = useLocation();
   const { data } = cureentData?.state || {};
-  // console.log(data);
-  // const { id } = useParams();
-  // const { data: currentData } = useGetSmartphoneByIdQuery(id);
 
   const {
     register,
@@ -33,7 +30,7 @@ function UpdateSmartphone() {
     description,
   } = data;
 
-  const [updateSmartphone] = useUpdateSmartphoneMutation(); //returns array
+  const [updateSmartphone, { isSuccess }] = useUpdateSmartphoneMutation(); //returns array
 
   const onSubmit = async (updateData: any) => {
     const {
@@ -57,36 +54,32 @@ function UpdateSmartphone() {
       name,
       category,
       releaseDate,
-      price,
-      quantity,
+      price: Number(price),
+      quantity: Number(quantity),
       brand,
       model,
       operatingSystem,
-      storageCapacity,
-      screenSize,
+      storageCapacity: Number(storageCapacity),
+      screenSize: Number(screenSize),
       cameraQuality,
       batteryLife,
       description,
     };
 
-    console.log(allData);
-
-    // if (result) {
-    //   // toast.success(result?.message, {
-    //   //   duration: 2000,
-    //   // });
-    //   toast.success("Smartphone Added Successfully!", {
-    //     duration: 2000,
-    //   });
-    //   navigate(`/all-smartphone`);
-    // }
-    // updateSmartphone({
-    //   id: _id,
-    //   body: modifiedData,
-    // });
+    // console.log(allData);
 
     try {
-      await updateSmartphone(allData).unwrap();
+      const result = await updateSmartphone(allData).unwrap();
+
+      if (result?.success) {
+        toast.success(result?.message, {
+          duration: 2000,
+        });
+        toast.success("Smartphone Updated Successfully!", {
+          duration: 2000,
+        });
+        navigate(`/all-smartphone`);
+      }
     } catch (err) {
       console.log(err, "error updated");
     }
