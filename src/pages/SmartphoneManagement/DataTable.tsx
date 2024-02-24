@@ -17,23 +17,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { ItemsProps } from "@/types/items.type";
 
-interface Item {
-  _id?: string;
-  name: string;
-  category: string;
-  price: number;
-  quantity: number;
-  brand: string;
-  model: string;
-  storageCapacity: string;
-}
-
-export interface DataTableProps {
-  item: Item;
-}
-
-function DataTable({ item }: DataTableProps) {
+function DataTable({ item }: ItemsProps) {
   const { _id, name, category, price, quantity, brand, model } = item;
   const [deleteSmartphone] = useDeleteSmartphoneMutation();
 
