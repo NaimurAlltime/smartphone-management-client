@@ -2,15 +2,21 @@ import { ItemsProps } from "@/types/items.type";
 import { CiShoppingBasket } from "react-icons/ci";
 
 export default function SmartphoneCard({ item }: ItemsProps) {
-  const { _id, name, category, price, quantity, brand, model, description } =
-    item;
+  const {
+    _id,
+    name,
+    category,
+    price,
+    quantity,
+    brand,
+    model,
+    description,
+    smartphoneImage,
+  } = item;
   return (
     <div className="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
       <a href="#!">
-        <img
-          className="rounded-t-lg"
-          src="https://tecdn.b-cdn.net/img/new/standard/nature/184.jpg"
-        />
+        <img className="rounded-t-lg w-full h-[220px]" src={smartphoneImage} />
       </a>
       <div className="p-6">
         <h5 className="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">

@@ -8,6 +8,7 @@ interface Item {
   model: string;
   storageCapacity: string;
   description?: string;
+  smartphoneImage?: string;
 }
 
 export interface ItemsProps {

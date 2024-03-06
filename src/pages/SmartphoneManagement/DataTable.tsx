@@ -8,7 +8,17 @@ import { Link } from "react-router-dom";
 import SellModal from "./SellModal";
 
 function DataTable({ item }: ItemsProps) {
-  const { _id, name, category, price, quantity, brand, model } = item;
+  const {
+    _id,
+    name,
+    category,
+    price,
+    quantity,
+    brand,
+    model,
+    smartphoneImage,
+  } = item;
+
   const [deleteSmartphone] = useDeleteSmartphoneMutation();
 
   const handleDelete = (id: string) => {
@@ -36,7 +46,15 @@ function DataTable({ item }: ItemsProps) {
     <>
       <tr className="border-b dark:border-neutral-500">
         <td className="whitespace-nowrap px-6 py-4 font-medium">1</td>
-        <td className="whitespace-nowrap px-6 py-4"> {name} </td>
+        <td className="whitespace-nowrap px-6 py-4 flex justify-center items-center">
+          {" "}
+          <img
+            className="w-[50px] h-[50px] mr-1"
+            src={smartphoneImage}
+            alt=""
+          />{" "}
+          {name}{" "}
+        </td>
         <td className="whitespace-nowrap px-6 py-4"> {category} </td>
         <td className="whitespace-nowrap px-6 py-4"> {price} </td>
         <td className="whitespace-nowrap px-6 py-4"> {quantity} </td>

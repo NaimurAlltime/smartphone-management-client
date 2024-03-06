@@ -37,6 +37,7 @@ function CreateSmartphone() {
         screenSize: Number(data.screenSize),
         cameraQuality: data.cameraQuality,
         batteryLife: data.batteryLife,
+        smartphoneImage: data.smartphoneImage,
       };
 
       // console.log(addSmartphone);
@@ -273,6 +274,22 @@ function CreateSmartphone() {
                 <span className="text-red-600">batteryLife is required</span>
               )}
             </div>
+          </div>
+
+          <div>
+            <label className="mb-1 block text-black dark:text-white">
+              Smartphone Image
+            </label>
+            <input
+              type="text"
+              {...register("smartphoneImage", { required: true })}
+              id="smartphoneImage"
+              placeholder="Enter smartphoneImage URL"
+              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+            />
+            {errors.smartphoneImage && (
+              <span className="text-red-600">smartphoneImage is required</span>
+            )}
           </div>
 
           <div>
