@@ -43,14 +43,6 @@ const smartphoneApi = baseApi.injectEndpoints({
       }),
       providesTags: ["smartphone"],
     }),
-    // updateSmartphone: builder.mutation({
-    //   query: (data) => ({
-    //     url: `/smartphones/${data.id}`,
-    //     method: "PUT",
-    //     body: data?.data,
-    //   }),
-    //   invalidatesTags: ["smartphone"],
-    // }),
     updateSmartphone: builder.mutation({
       query: (data) => ({
         url: `/smartphones/${data._id}`,

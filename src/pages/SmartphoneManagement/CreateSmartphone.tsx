@@ -43,8 +43,6 @@ function CreateSmartphone() {
 
       const result = await addSmartphoneApi(addSmartphone as any).unwrap();
 
-      // dispatch(setSmartphones({ smartphones: result }));
-
       if (result?.success) {
         toast.success(result?.message, {
           duration: 2000,

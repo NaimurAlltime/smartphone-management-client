@@ -2,22 +2,10 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useDeleteSmartphoneMutation } from "../../redux/features/smartphone/smartphoneApi";
 import Swal from "sweetalert2";
-import { TiShoppingCart } from "react-icons/ti";
-import { Link } from "react-router-dom";
-import { CiShoppingBasket } from "react-icons/ci";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+
 import { ItemsProps } from "@/types/items.type";
+import { Link } from "react-router-dom";
+import SellModal from "./SellModal";
 
 function DataTable({ item }: ItemsProps) {
   const { _id, name, category, price, quantity, brand, model } = item;
@@ -59,57 +47,7 @@ function DataTable({ item }: ItemsProps) {
           {item.storageCapacity}{" "}
         </td>
         <td className="whitespace-nowrap px-6 py-4 felx justify-center items-center">
-          <Dialog>
-            <DialogTrigger asChild>
-              <button>
-                <TiShoppingCart className="text-2xl" />
-              </button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Sell Smartphone</DialogTitle>
-                <DialogDescription>
-                  Experience unparalleled performance and cutting-edge features
-                  with our latest smartphone.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Buyer Name
-                  </Label>
-                  <Input
-                    id="buyer_name"
-                    placeholder="Example: Jhon Due"
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                    Quantity
-                  </Label>
-                  <Input
-                    type="number"
-                    id="quantity"
-                    placeholder="Example: 1"
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                    Date
-                  </Label>
-                  <Input type="date" id="quantity" className="col-span-3" />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">
-                  <CiShoppingBasket className="text-xl mr-1 font-medium text-white" />
-                  Sell
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          <SellModal />
 
           <Link to={`/update-smartphone/${_id}`} state={{ data: item }}>
             <button className="mx-3">
