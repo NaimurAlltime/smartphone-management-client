@@ -2,7 +2,6 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useDeleteSmartphoneMutation } from "../../redux/features/smartphone/smartphoneApi";
 import Swal from "sweetalert2";
-
 import { ItemsProps } from "@/types/items.type";
 import { Link } from "react-router-dom";
 import SellModal from "./SellModal";
@@ -67,12 +66,9 @@ function DataTable({ item }: ItemsProps) {
           {item.storageCapacity}{" "}
         </td>
         <td className="whitespace-nowrap px-6 py-4 felx justify-center items-center">
-          {/* <Link to={`/sales-management/${_id}`} state={{ data: item }}> */}
           <button onClick={() => setSmartphooneId(_id as string)}>
             <SellModal smartphooneId={smartphooneId} />
           </button>
-
-          {/* </Link> */}
 
           <Link to={`/update-smartphone/${_id}`} state={{ data: item }}>
             <button className="mx-3">

@@ -3,7 +3,7 @@ import SmartphoneCard from "./SmartphoneCard";
 
 function SalesManagement() {
   const { data: smartphones } = useGetAllSmartphoneQuery({});
-  console.log(smartphones);
+  // console.log(smartphones);
   return (
     <div className="my-10 max-w-screen-xl mx-auto p-2 md:p-0">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7 mt-7">

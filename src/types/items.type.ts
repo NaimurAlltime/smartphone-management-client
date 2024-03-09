@@ -6,6 +6,7 @@ interface Item {
   quantity: number;
   brand: string;
   model: string;
+  screenSize?: string;
   storageCapacity: string;
   description?: string;
   smartphoneImage?: string;
