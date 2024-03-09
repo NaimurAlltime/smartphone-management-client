@@ -6,8 +6,10 @@ import Swal from "sweetalert2";
 import { ItemsProps } from "@/types/items.type";
 import { Link } from "react-router-dom";
 import SellModal from "./SellModal";
+import { useState } from "react";
 
 function DataTable({ item }: ItemsProps) {
+  const [smartphooneId, setSmartphooneId] = useState("");
   const {
     _id,
     name,
@@ -65,7 +67,12 @@ function DataTable({ item }: ItemsProps) {
           {item.storageCapacity}{" "}
         </td>
         <td className="whitespace-nowrap px-6 py-4 felx justify-center items-center">
-          <SellModal />
+          {/* <Link to={`/sales-management/${_id}`} state={{ data: item }}> */}
+          <button onClick={() => setSmartphooneId(_id as string)}>
+            <SellModal smartphooneId={smartphooneId} />
+          </button>
+
+          {/* </Link> */}
 
           <Link to={`/update-smartphone/${_id}`} state={{ data: item }}>
             <button className="mx-3">

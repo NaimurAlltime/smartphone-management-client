@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "sales-management",
+        path: "sales-management/:id",
         element: <SalesManagement />,
       },
       {

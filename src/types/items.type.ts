@@ -14,3 +14,9 @@ interface Item {
 export interface ItemsProps {
   item: Item;
 }
+
+export interface SaleItemsProps {
+  buyer_name: string;
+  quantity: number;
+  sale_date: string;
+}

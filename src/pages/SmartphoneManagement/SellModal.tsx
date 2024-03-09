@@ -16,7 +16,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useAddSaleApiMutation } from "@/redux/features/sale/saleApi";
 import { toast } from "sonner";
 
-export default function SellModal() {
+export default function SellModal({ smartphooneId }: string | any) {
   const {
     register,
     handleSubmit,
@@ -33,13 +33,11 @@ export default function SellModal() {
         buyer_name: data.buyer_name,
         quantity: Number(data.quantity),
         sale_date: data.sale_date,
+        smartphoneId: smartphooneId,
       };
       console.log(addSale);
       const result = await addSaleApi(addSale as any).unwrap();
       if (result?.success) {
-        toast.success(result?.message, {
-          duration: 2000,
-        });
         toast.success("Sale Added Successfully!", {
           duration: 2000,
         });
