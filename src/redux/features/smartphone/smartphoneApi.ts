@@ -37,6 +37,22 @@ const smartphoneApi = baseApi.injectEndpoints({
       },
       providesTags: ["smartphone"],
     }),
+
+    getProducts: builder.query({
+      query: (queryParams) => {
+        let reqParams = "";
+        if (queryParams) {
+          reqParams = queryParams;
+        }
+
+        return {
+          url: `/smartphones?${reqParams}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["smartphone"],
+    }),
+
     getSmartphoneById: builder.query({
       query: (id) => ({
         url: `/smartphones/${id}`,
@@ -58,13 +74,23 @@ const smartphoneApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["smartphone"],
     }),
+    deleteMultipleSmartphone: builder.mutation({
+      query: (idList) => ({
+        url: `/smartphones`,
+        method: "DELETE",
+        body: idList,
+      }),
+      invalidatesTags: ["smartphone"],
+    }),
   }),
 });
 
 export const {
   useAddSmartphoneApiMutation,
   useGetAllSmartphoneQuery,
+  useGetProductsQuery,
   useGetSmartphoneByIdQuery,
   useUpdateSmartphoneMutation,
   useDeleteSmartphoneMutation,
+  useDeleteMultipleSmartphoneMutation,
 } = smartphoneApi;

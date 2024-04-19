@@ -1,186 +1,245 @@
-import { useState } from "react";
-import { useGetAllSmartphoneQuery } from "../../redux/features/smartphone/smartphoneApi";
-import DataTable from "./DataTable";
-// Initialization for ES Users
-import { Modal, Ripple, initTE } from "tw-elements";
+import React, { useState } from "react";
+import { Button, Empty, Space, Table, TableColumnsType } from "antd";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { toast } from "sonner";
+import { FaRegEdit } from "react-icons/fa";
+import {
+  useDeleteMultipleSmartphoneMutation,
+  useDeleteSmartphoneMutation,
+  useGetProductsQuery,
+} from "@/redux/features/smartphone/smartphoneApi";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import SellModal from "./SellModal";
+import ProductListFilter from "./ProductListFilter";
+import { useAppSelector } from "@/redux/hooks";
 
-initTE({ Modal, Ripple });
-
-function GetAllSmartphone() {
-  const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
-  const [operatingSystem, setOperatingSystem] = useState("");
-  const [storageCapacity, setStorageCapacity] = useState("");
-  const [releaseDate, setReleaseDate] = useState("");
-  const [screenSize, setScreenSize] = useState("");
-
-  const { data: smartphones } = useGetAllSmartphoneQuery({
-    brand: brand,
-    category: category,
-    operatingSystem: operatingSystem,
-    storageCapacity: storageCapacity,
-    releaseDate: releaseDate,
-    screenSize: screenSize,
-  });
-
-  // console.log(smartphones?.data);
-  return (
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="py-6 px-4 text-center md:px-6 xl:px-7.5">
-        <h4 className="text-xl font-semibold text-black dark:text-white">
-          All Smartphone
-        </h4>
-      </div>
-
-      <div className="flex justify-center items-center">
-        <div className="">
-          <select
-            onChange={(e) => setBrand(e.target?.value)}
-            name=""
-            id=""
-            className="border border-[#0874c4]  py-4 md:py-0.5 my-3 p-2 bg-slate-300 rounded-md focus:outline-none focus:border-blue-500  md:ml-3"
-          >
-            <option defaultChecked> Filter By Brand</option>
-            <option value="Google">Google</option>
-            <option value="Apple">Apple</option>
-            <option value="Realme">Realme</option>
-            <option value="Samsung"> Samsung </option>
-            <option value="OnePlus"> OnePlus </option>
-          </select>
-        </div>
-        <div>
-          <select
-            onChange={(e) => setCategory(e.target?.value)}
-            name=""
-            id=""
-            className="border border-[#0874c4]  py-4 md:py-0.5 my-3 p-2 bg-slate-300 rounded-md focus:outline-none focus:border-blue-500  md:ml-3"
-          >
-            <option defaultChecked> Filter By Category</option>
-            <option value="Simple">Simple</option>
-            <option value="Premium">Premium</option>
-          </select>
-        </div>
-        <div>
-          <select
-            onChange={(e) => setOperatingSystem(e.target?.value)}
-            name=""
-            id=""
-            className="border border-[#0874c4]  py-4 md:py-0.5 my-3 p-2 bg-slate-300 rounded-md focus:outline-none focus:border-blue-500  md:ml-3"
-          >
-            <option defaultChecked> Filter by Operating System</option>
-            <option value="Android">Android</option>
-            <option value="iOS">iOS</option>
-            <option value="OxygenOS">OxygenOS</option>
-          </select>
-        </div>
-        <div>
-          <select
-            onChange={(e) => setStorageCapacity(e.target?.value)}
-            name=""
-            id=""
-            className="border border-[#0874c4]  py-4 md:py-0.5 my-3 p-2 bg-slate-300 rounded-md focus:outline-none focus:border-blue-500  md:ml-3"
-          >
-            <option defaultChecked> Filter By Storage Capacity</option>
-            <option value="32">32</option>
-            <option value="63">64</option>
-            <option value="128">128</option>
-            <option value="256">256</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="flex justify-center items-center">
-        <div>
-          <select
-            onChange={(e) => setReleaseDate(e.target?.value)}
-            name=""
-            id=""
-            className="border border-[#0874c4]  py-4 md:py-0.5 my-3 p-2 bg-slate-300 rounded-md focus:outline-none focus:border-blue-500  md:ml-3"
-          >
-            <option defaultChecked> Filter By releaseDate</option>
-            <option value="2023-09-14T00:00:00.000Z">
-              2023-09-14T00:00:00.000Z
-            </option>
-            <option value="2022-10-19T00:00:00.000Z">
-              2022-10-19T00:00:00.000Z
-            </option>
-          </select>
-        </div>
-        <div>
-          <select
-            onChange={(e) => setScreenSize(e.target?.value)}
-            className="border border-[#0874c4]  py-4 md:py-0.5 my-3 p-2 bg-slate-300 rounded-md focus:outline-none focus:border-blue-500  md:ml-3"
-          >
-            <option defaultChecked> Filter By screenSize</option>
-            <option value="5.2">5.2</option>
-            <option value="5.6">5.6</option>
-            <option value="6.1">6.1</option>
-            <option value="6.2">6.2</option>
-            <option value="6.4">6.4</option>
-          </select>
-        </div>
-        <div>
-          <select
-            // onChange={(e) => setFilter(e.target?.value)}
-            name=""
-            id=""
-            className="border border-[#0874c4]  py-4 md:py-0.5 my-3 p-2 bg-slate-300 rounded-md focus:outline-none focus:border-blue-500  md:ml-3"
-          >
-            <option defaultChecked> Filter By</option>
-            <option value="minPrice">Min Price</option>
-            <option value="maxPrice">Max Price</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="flex flex-col">
-        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-            <div className="overflow-hidden">
-              <table className="min-w-full text-left text-sm font-light">
-                <thead className="border-b font-medium dark:border-neutral-500">
-                  <tr>
-                    <th scope="col" className="px-6 py-4">
-                      #
-                    </th>
-                    <th scope="col" className="px-6 py-4">
-                      Smartphone Name
-                    </th>
-                    <th scope="col" className="px-6 py-4">
-                      Category
-                    </th>
-                    <th scope="col" className="px-6 py-4">
-                      Price
-                    </th>
-                    <th scope="col" className="px-6 py-4">
-                      Quantity
-                    </th>
-                    <th scope="col" className="px-6 py-4">
-                      Brand
-                    </th>
-                    <th scope="col" className="px-6 py-4">
-                      Model
-                    </th>
-                    <th scope="col" className="px-6 py-4">
-                      Storage
-                    </th>
-                    <th scope="col" className="px-6 py-4">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {smartphones?.data.map((item) => (
-                    <DataTable key={item._id} item={item} />
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+interface DataType {
+  key: React.Key;
+  image: string;
+  name: string;
+  quantity: number;
+  price: number;
+  releaseDate: string;
+  brand: string;
 }
+
+const GetAllSmartphone = () => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [smartphoneId, setSmartphoneId] = useState<string | null>(null);
+  const [deleteProductsFromDB] = useDeleteMultipleSmartphoneMutation();
+  const [deleteSmartphone] = useDeleteSmartphoneMutation();
+  const { productFilterQuery } = useAppSelector((state) => state.filter);
+  const { data, isLoading } = useGetProductsQuery(productFilterQuery);
+
+  let content: JSX.Element | null = null; // Declare content variable here
+
+  const handleDelete = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteSmartphone(id);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
+
+  const columns: TableColumnsType<DataType> = [
+    {
+      title: "Image",
+      dataIndex: "smartphoneImage",
+      render: (text) => (
+        <img
+          src={text}
+          alt={text}
+          style={{
+            width: 80,
+            height: 80,
+            objectFit: "cover",
+          }}
+        />
+      ),
+    },
+    {
+      title: "Product Name",
+      dataIndex: "name",
+    },
+    {
+      title: "Release Date",
+      dataIndex: "releaseDate",
+    },
+    {
+      title: "Brand",
+      dataIndex: "brand",
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (
+        _,
+        record // Changed `_` to `record` to access the current record
+      ) => (
+        <Space size="small">
+          <button
+            className=""
+            onClick={() => setSmartphoneId(record.key as string)}
+          >
+            <SellModal smartphooneId={smartphoneId} />
+          </button>
+
+          <Link
+            to={`/update-smartphone/${record.key}`}
+            state={{ data: record }}
+          >
+            <button className="mx-3 flex justify-center items-center gap-1 border border-gray-300 px-1.5 py-0.5 rounded-sm bg-sky-500 text-white">
+              Edit
+              <FaRegEdit className="text-lg" />
+            </button>
+          </Link>
+
+          <button
+            className="flex justify-center items-center gap-1 border border-gray-300 px-1 py-0.5 rounded-sm bg-red-500 text-white"
+            onClick={() => handleDelete(record.key as string)}
+          >
+            Delete
+            <RiDeleteBinLine className="text-lg" />
+          </button>
+        </Space>
+      ),
+    },
+  ];
+
+  let products: DataType[] = [];
+  if (!isLoading && data) {
+    products = data.data.map((product: any) => ({
+      key: product._id,
+      name: product.name,
+      category: product.category,
+      releaseDate: product.releaseDate,
+      price: product.price,
+      quantity: product.quantity,
+      brand: product.brand,
+      model: product.model,
+      operatingSystem: product.operatingSystem,
+      storageCapacity: product.storageCapacity,
+      screenSize: product.screenSize,
+      cameraQuality: product.batteryLife,
+      batteryLife: product,
+      smartphoneImage: product.smartphoneImage,
+      description: product.description,
+    }));
+  }
+
+  const deleteProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await deleteProductsFromDB({
+        idList: selectedRowKeys,
+      }).unwrap();
+      if (response?.success) {
+        toast.success(response?.message, {
+          duration: 2000,
+        });
+        toast.success("Smartphone Updated Successfully!", {
+          duration: 2000,
+        });
+      }
+    } catch (err) {
+      toast.error("Something Went Wrong!", {
+        duration: 1500,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+  const hasSelected = selectedRowKeys.length > 0;
+
+  if (!isLoading && data?.data?.length > 0) {
+    content = (
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={products}
+        pagination={{
+          position: ["bottomCenter"],
+          pageSize: 6,
+        }}
+        loading={isLoading}
+      />
+    );
+  }
+
+  return (
+    <>
+      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <div className="py-6 px-4 text-center md:px-6 xl:px-7.5">
+          <h4 className="text-xl font-semibold text-black dark:text-white">
+            All Smartphone
+          </h4>
+        </div>
+
+        <ProductListFilter />
+
+        <div style={{ padding: "10px" }}>
+          <div style={{ marginBottom: 16 }}>
+            <Button
+              type="primary"
+              size="large"
+              onClick={deleteProducts}
+              disabled={!hasSelected}
+              loading={loading}
+              danger
+            >
+              Delete Products
+            </Button>
+            <span style={{ marginLeft: 8 }}>
+              {hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}
+            </span>
+          </div>
+
+          {!isLoading && data?.data?.length === 0 ? (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description={<span>No Smartphone Found!</span>}
+            />
+          ) : (
+            ""
+          )}
+          <div>{content}</div>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default GetAllSmartphone;

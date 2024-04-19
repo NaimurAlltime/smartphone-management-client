@@ -51,7 +51,8 @@ export default function SellModal({ smartphooneId }: string | any) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button>
+        <button className="flex justify-center items-center gap-1 border border-gray-300 px-1.5 py-0.5 rounded-sm bg-blue-500 text-white">
+          Sell
           <TiShoppingCart className="text-2xl" />
         </button>
       </DialogTrigger>
@@ -112,7 +113,7 @@ export default function SellModal({ smartphooneId }: string | any) {
 
           <DialogFooter>
             <Button type="submit">
-              <CiShoppingBasket className="text-xl mr-1 font-medium text-white" />
+              <CiShoppingBasket className="text-lg mr-1 font-medium text-white" />
               Sell
             </Button>
           </DialogFooter>

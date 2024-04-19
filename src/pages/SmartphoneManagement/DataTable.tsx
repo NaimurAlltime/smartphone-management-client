@@ -46,7 +46,9 @@ function DataTable({ item }: ItemsProps) {
   return (
     <>
       <tr className="border-b dark:border-neutral-500">
-        <td className="whitespace-nowrap px-6 py-4 font-medium">1</td>
+        <td className="whitespace-nowrap px-6 py-4 font-medium">
+          <input type="checkbox" />
+        </td>
         <td className="whitespace-nowrap px-6 py-4 flex justify-center items-center">
           {" "}
           <img

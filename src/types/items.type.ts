@@ -8,7 +8,7 @@ interface Item {
   model: string;
   screenSize?: string;
   storageCapacity: string;
-  description?: string;
+  details?: string;
   smartphoneImage?: string;
 }
 

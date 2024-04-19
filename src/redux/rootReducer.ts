@@ -3,6 +3,7 @@ import { baseApi } from "./api/baseApi";
 import authReducer from "./features/auth/authSlice";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import filterReducer from "./features/filter/filterSlice";
 
 const persistConfig = {
   key: "auth",
@@ -15,4 +16,5 @@ export const rootReducer = {
   [baseApi.reducerPath]: baseApi.reducer,
   auth: persistedAuthReducer,
   // smartphone: smartphoneReducer,
+  filter: filterReducer,
 };

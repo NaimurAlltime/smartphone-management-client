@@ -202,18 +202,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               Add Smartphone
                             </NavLink>
                           </li>
-
-                          {/* <li>
-                            <NavLink
-                              to="/update-smartphone"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-1 rounded-md px-4 font-medium text-gray-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              Update Smartphone
-                            </NavLink>
-                          </li> */}
                         </ul>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
