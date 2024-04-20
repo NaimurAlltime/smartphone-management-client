@@ -11,15 +11,16 @@ import { ItemsProps } from "@/types/items.type";
 export default function DetailsModal({ item }: ItemsProps) {
   const {
     name,
-    category,
     price,
     quantity,
     brand,
-    storageCapacity,
+    storage,
+    camera,
     screenSize,
     details,
     smartphoneImage,
   } = item;
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -47,9 +48,6 @@ export default function DetailsModal({ item }: ItemsProps) {
                 <span className="font-semibold">Name:</span> {name}{" "}
               </h2>
               <p className="mt-1">
-                <span className="font-semibold">Category:</span> {category}{" "}
-              </p>
-              <p className="mt-1">
                 <span className="font-semibold">ScreenSize:</span> {screenSize}{" "}
                 Inc{" "}
               </p>
@@ -63,8 +61,15 @@ export default function DetailsModal({ item }: ItemsProps) {
                 <span className="font-semibold">Brand:</span> {brand}{" "}
               </p>
               <p className="mt-1">
-                <span className="font-semibold">StorageCapacity:</span>{" "}
-                {storageCapacity}{" "}
+                <span className="font-semibold">StorageCapacity:</span> Ram:{" "}
+                {storage.RAM} and Rom: {storage.ROM}
+              </p>
+              <p className="mt-1">
+                <span className="font-semibold">FrontCamera:</span>{" "}
+                {camera.front}
+              </p>
+              <p className="mt-1">
+                <span className="font-semibold">BackCamera:</span> {camera.back}
               </p>
               <p className="mt-1">
                 <span className="font-semibold">Description:</span> {details}{" "}

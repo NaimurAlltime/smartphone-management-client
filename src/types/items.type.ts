@@ -1,13 +1,21 @@
+export type StorageType = {
+  RAM: string;
+  ROM: string;
+};
+
 interface Item {
   _id?: string;
   name: string;
-  category: string;
   price: number;
   quantity: number;
   brand: string;
   model: string;
   screenSize?: string;
-  storageCapacity: string;
+  storage: StorageType;
+  camera: {
+    front: string;
+    back: string;
+  };
   details?: string;
   smartphoneImage?: string;
 }
