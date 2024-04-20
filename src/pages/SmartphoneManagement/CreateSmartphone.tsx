@@ -1,324 +1,379 @@
-import { FieldValues } from "react-hook-form";
-import { useAddSmartphoneApiMutation } from "../../redux/features/smartphone/smartphoneApi";
-import { useNavigate } from "react-router-dom";
-import "../../styles/dashboard.css";
-import { useForm } from "react-hook-form";
+import { useForm, Controller, FieldValues } from "react-hook-form";
+import {
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Button,
+  Space,
+  DatePicker,
+  Row,
+  Col,
+} from "antd";
+import { useState } from "react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+import { StorageSizesArray } from "../../constant/storageSize.constant";
+import { useAddSmartphoneApiMutation } from "@/redux/features/smartphone/smartphoneApi";
 
-function CreateSmartphone() {
+const defaultValues = {
+  battery: "5000 mAh",
+  brand: "Apple",
+  camera: { front: "16 MP", back: "48 MP" },
+  details:
+    "Experience cutting-edge technology at your fingertips with the latest smartphone. Sleek design, powerful performance, and an intuitive user experience redefine mobile innovation. Stay connected, capture moments, and explore endless possibilities with this essential companion.",
+  model: "iPhone 14 Pro",
+  name: "Apple iPhone 14 Pro",
+  operatingSystem: "iOS",
+  price: 800,
+  processor: { type: "Apple A16 Bionic (4 nm)", speed: "2x3.4 GHz" },
+  smartphoneImage:
+    "https://img.freepik.com/free-vector/realistic-white-smartphone-design-with-three-cameras_23-2148374059.jpg?t=st=1713621886~exp=1713625486~hmac=0363d5c1149890ccefb8c983c4f33e9c47299c17424e52297787a80f48f66ad3&w=740",
+  quantity: 100,
+  releaseDate: undefined,
+  screenSize: "6.7 inches",
+  storage: { RAM: "8GB", ROM: "128GB" },
+};
+
+const CreateSmartphone = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [addSmartphoneApi] = useAddSmartphoneApiMutation();
+  // const { role } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  // add smartphone for server
-  const [addSmartphoneApi, { data, isLoading, isSuccess, isError }] =
-    useAddSmartphoneApiMutation();
-
-  console.log({ data, isLoading, isSuccess, isError });
+  const { handleSubmit, control } = useForm({
+    defaultValues,
+  });
 
   const onSubmit = async (data: FieldValues) => {
-    // console.log(data);
-    try {
-      const addSmartphone = {
-        name: data.name,
-        price: Number(data.price),
-        quantity: Number(data.quantity),
-        description: data.description,
-        category: data.category,
-        releaseDate: data.releaseDate,
-        brand: data.brand,
-        model: data.model,
-        operatingSystem: data.operatingSystem,
-        storageCapacity: Number(data.storageCapacity),
-        screenSize: Number(data.screenSize),
-        cameraQuality: data.cameraQuality,
-        batteryLife: data.batteryLife,
-        smartphoneImage: data.smartphoneImage,
-      };
+    setIsLoading(true);
 
-      // console.log(addSmartphone);
+    const {
+      battery,
+      brand,
+      camera,
+      details,
+      model,
+      name,
+      operatingSystem,
+      price,
+      processor,
+      smartphoneImage,
+      quantity,
+      releaseDate,
+      screenSize,
+      storage,
+    } = data;
 
-      const result = await addSmartphoneApi(addSmartphone as any).unwrap();
+    if (
+      battery &&
+      brand &&
+      camera &&
+      details &&
+      model &&
+      name &&
+      operatingSystem &&
+      price &&
+      processor &&
+      smartphoneImage &&
+      quantity &&
+      releaseDate &&
+      screenSize &&
+      storage
+    ) {
+      try {
+        const addSmartphone = {
+          battery,
+          brand,
+          camera,
+          details,
+          model,
+          name,
+          operatingSystem,
+          price,
+          processor,
+          smartphoneImage,
+          quantity,
+          releaseDate: `${releaseDate.$y}-${releaseDate.$M + 1}-${
+            releaseDate.$D
+          }`,
+          screenSize,
+          storage,
+        };
 
-      if (result?.success) {
-        toast.success(result?.message, {
-          duration: 2000,
+        const response = await addSmartphoneApi(addSmartphone as any).unwrap();
+
+        setIsLoading(false);
+
+        if (response?.success) {
+          toast.success(response?.message, {
+            duration: 2000,
+          });
+          toast.success("Smartphone Added Successfully!", {
+            duration: 2000,
+          });
+          navigate(`/all-smartphone`);
+        }
+      } catch (err: any) {
+        setIsLoading(false);
+        console.error(err);
+        toast.error("Something Went wrong! Try again", {
+          duration: 1000,
         });
-        toast.success("Smartphone Added Successfully!", {
-          duration: 2000,
-        });
-        navigate(`/all-smartphone`);
       }
-    } catch (error) {
-      toast.error("something went wrong!", { duration: 2000 });
+    } else {
+      setIsLoading(false);
+      toast.error("Please provide every information!", {
+        duration: 1500,
+      });
     }
   };
-  // mt-[10%]
+
   return (
     <div className="w-100 h-100 mx-auto ">
-      {/* <!-- Sign In Form --> */}
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
           <h3 className="font-medium text-center text-black dark:text-white">
             Create Smartphone Form
           </h3>
         </div>
-        <form className="p-6.5 px-2 mt-3" onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex gap-3 mb-2">
-            <div className="mb-4.5 w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                Name
-              </label>
-              <input
-                type="text"
-                {...register("name", { required: true })}
-                id="name"
-                placeholder="Enter your name"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.name && (
-                <span className="text-red-600">Name is required</span>
-              )}
-            </div>
+        <div style={{ padding: "20px" }}>
+          <Form layout="vertical" onFinish={handleSubmit(onSubmit)}>
+            <Row gutter={[16, 16]}>
+              <Col span={8}>
+                <Form.Item label="Name" name="name">
+                  <Controller
+                    name="name"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="Price" name="price">
+                  <Controller
+                    name="price"
+                    control={control}
+                    render={({ field }) => (
+                      <InputNumber {...field} style={{ width: "100%" }} />
+                    )}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="Quantity" name="quantity">
+                  <Controller
+                    name="quantity"
+                    control={control}
+                    render={({ field }) => (
+                      <InputNumber
+                        {...field}
+                        style={{ width: "100%" }}
+                        min={0}
+                      />
+                    )}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
 
-            <div className="w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                Price
-              </label>
-              <input
-                type="number"
-                {...register("price", { required: true })}
-                id="price"
-                placeholder="Enter price"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.price && (
-                <span className="text-red-600">Price is required</span>
-              )}
-            </div>
-          </div>
+            <Row gutter={[16, 16]}>
+              <Col span={8}>
+                <Form.Item label="Release Date" name="releaseDate">
+                  <Controller
+                    name="releaseDate"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker {...field} style={{ width: "100%" }} />
+                    )}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="Brand" name="brand">
+                  <Controller
+                    name="brand"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="Model" name="model">
+                  <Controller
+                    name="model"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
 
-          <div className="flex gap-3 mb-2">
-            <div className="mb-4.5 w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                Quantity
-              </label>
-              <input
-                type="number"
-                {...register("quantity", { required: true })}
-                id="quantity"
-                placeholder="Enter quantity"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.quantity && (
-                <span className="text-red-600">Quantity is required</span>
-              )}
-            </div>
+            <Row gutter={[16, 16]}>
+              <Col span={8}>
+                <Form.Item label="Operating System" name="operatingSystem">
+                  <Controller
+                    name="operatingSystem"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        placeholder="Select Operating System"
+                        options={[
+                          { value: "Android", label: <span>Android</span> },
+                          { value: "iOS", label: <span>iOS</span> },
+                        ]}
+                      />
+                    )}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="Screen Size" name="screenSize">
+                  <Controller
+                    name="screenSize"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="Battery" name="battery">
+                  <Controller
+                    name="battery"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
 
-            <div className="w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                Category
-              </label>
-              <input
-                type="text"
-                {...register("category", { required: true })}
-                id="category"
-                placeholder="Enter category"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.category && (
-                <span className="text-red-600">Category is required</span>
-              )}
-            </div>
-          </div>
+            <Row gutter={[16, 16]}>
+              <Col span={8}>
+                <Form.Item label="Front Camera" name="camera.front">
+                  <Controller
+                    name="camera.front"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="Back Camera" name="camera.back">
+                  <Controller
+                    name="camera.back"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="Processor Type" name="processor.type">
+                  <Controller
+                    name="processor.type"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
 
-          <div className="flex gap-3 mb-2">
-            <div className="mb-4.5 w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                Release Date
-              </label>
-              <input
-                type="date"
-                {...register("releaseDate", { required: true })}
-                id="releaseDate"
-                placeholder="Enter releaseDate"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.releaseDate && (
-                <span className="text-red-600">brand is required</span>
-              )}
-            </div>
+            <Row gutter={[16, 16]}>
+              <Col span={8}>
+                <Form.Item label="Processor Speed" name="processor.speed">
+                  <Controller
+                    name="processor.speed"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="RAM" name="storage.RAM">
+                  <Controller
+                    name="storage.RAM"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        placeholder="Select RAM"
+                        options={StorageSizesArray.map((size) => ({
+                          value: size,
+                          label: <span>{size}</span>,
+                        }))}
+                      />
+                    )}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label="ROM" name="storage.ROM">
+                  <Controller
+                    name="storage.ROM"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        placeholder="Select ROM"
+                        options={StorageSizesArray.map((size) => ({
+                          value: size,
+                          label: <span>{size}</span>,
+                        }))}
+                      />
+                    )}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
 
-            <div className="w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                brand
-              </label>
-              <input
-                type="text"
-                {...register("brand", { required: true })}
-                id="brand"
-                placeholder="Enter brand"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.category && (
-                <span className="text-red-600">Category is required</span>
-              )}
-            </div>
-          </div>
+            <Row gutter={[16, 16]}>
+              <Col span={24}>
+                <Form.Item label="Smartphone Image" name="smartphoneImage">
+                  <Controller
+                    name="smartphoneImage"
+                    control={control}
+                    render={({ field }) => <Input {...field} />}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
 
-          <div className="flex gap-3 mb-2">
-            <div className="mb-4.5 w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                Model
-              </label>
-              <input
-                type="text"
-                {...register("model", { required: true })}
-                id="model"
-                placeholder="Enter model"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.model && (
-                <span className="text-red-600">model is required</span>
-              )}
-            </div>
+            <Row gutter={[16, 16]}>
+              <Col span={24}>
+                <Form.Item label="Details" name="details">
+                  <Controller
+                    name="details"
+                    control={control}
+                    render={({ field }) => (
+                      <Input.TextArea {...field} rows={4} />
+                    )}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
 
-            <div className="w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                OperatingSystem
-              </label>
-              <input
-                type="text"
-                {...register("operatingSystem", { required: true })}
-                id="operatingSystem"
-                placeholder="Enter operatingSystem"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.operatingSystem && (
-                <span className="text-red-600">
-                  operatingSystem is required
-                </span>
-              )}
-            </div>
-          </div>
-
-          <div className="flex gap-3 mb-2">
-            <div className="mb-4.5 w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                StorageCapacity
-              </label>
-              <input
-                type="number"
-                {...register("storageCapacity", { required: true })}
-                id="storageCapacity"
-                placeholder="Enter storageCapacity"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.storageCapacity && (
-                <span className="text-red-600">
-                  storageCapacity is required
-                </span>
-              )}
-            </div>
-
-            <div className="w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                Screen Size
-              </label>
-              <input
-                type="text"
-                {...register("screenSize", { required: true })}
-                id="screenSize"
-                placeholder="Enter screenSize"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.screenSize && (
-                <span className="text-red-600">screenSize is required</span>
-              )}
-            </div>
-          </div>
-
-          <div className="flex gap-3 mb-2">
-            <div className="mb-4.5 w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                Camera Quality
-              </label>
-              <input
-                type="text"
-                {...register("cameraQuality", { required: true })}
-                id="cameraQuality"
-                placeholder="Enter cameraQuality"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.cameraQuality && (
-                <span className="text-red-600">cameraQuality is required</span>
-              )}
-            </div>
-
-            <div className="w-1/2">
-              <label className="mb-1 block text-black dark:text-white">
-                BatteryLife
-              </label>
-              <input
-                type="text"
-                {...register("batteryLife", { required: true })}
-                id="screenSize"
-                placeholder="Enter batteryLife"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.batteryLife && (
-                <span className="text-red-600">batteryLife is required</span>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <label className="mb-1 block text-black dark:text-white">
-              Smartphone Image
-            </label>
-            <input
-              type="text"
-              {...register("smartphoneImage", { required: true })}
-              id="smartphoneImage"
-              placeholder="Enter smartphoneImage URL"
-              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-            />
-            {errors.smartphoneImage && (
-              <span className="text-red-600">smartphoneImage is required</span>
-            )}
-          </div>
-
-          <div>
-            <label className="mb-1 block text-black dark:text-white">
-              Description
-            </label>
-            <textarea
-              id="description"
-              // cols={6}
-              rows={3}
-              {...register("description", { required: true })}
-              placeholder="Enter description"
-              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-            />
-            {errors.description && (
-              <span className="text-red-600">batteryLife is required</span>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            className="flex w-full custom-sidebar-bg text-white mt-2 justify-center rounded bg-primary p-3 font-medium text-gray"
-          >
-            Add Smartphone
-          </button>
-        </form>
+            <Row gutter={[16, 16]}>
+              <Col span={24}>
+                <Form.Item>
+                  <Space>
+                    <Button
+                      className="bg-blue-400"
+                      type="primary"
+                      htmlType="submit"
+                      size="large"
+                      disabled={isLoading}
+                      loading={isLoading}
+                    >
+                      Add Smartphone
+                    </Button>
+                  </Space>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default CreateSmartphone;
