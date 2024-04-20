@@ -134,19 +134,19 @@ const GetAllSmartphone = () => {
     products = data.data.map((product: any) => ({
       key: product._id,
       name: product.name,
-      category: product.category,
       releaseDate: product.releaseDate,
       price: product.price,
       quantity: product.quantity,
       brand: product.brand,
       model: product.model,
       operatingSystem: product.operatingSystem,
-      storageCapacity: product.storageCapacity,
+      storage: product.storage,
       screenSize: product.screenSize,
-      cameraQuality: product.batteryLife,
-      batteryLife: product,
+      camera: product.camera,
+      processor: product.processor,
+      battery: product.battery,
       smartphoneImage: product.smartphoneImage,
-      description: product.description,
+      details: product.details,
     }));
   }
 

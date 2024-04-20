@@ -59,14 +59,27 @@ const smartphoneApi = baseApi.injectEndpoints({
       }),
       providesTags: ["smartphone"],
     }),
+    // updateSmartphone: builder.mutation({
+    //   query: (data) => ({
+    //     url: `/smartphones/${data._id}`,
+    //     method: "PUT",
+    //     body: data,
+    //   }),
+    //   invalidatesTags: ["smartphone"],
+    // }),
+
     updateSmartphone: builder.mutation({
-      query: (data) => ({
-        url: `/smartphones/${data._id}`,
-        method: "PUT",
-        body: data,
-      }),
+      query: (options) => {
+        const { productId, updatedInfo } = options;
+        return {
+          url: `/smartphones/${productId}`,
+          method: "PATCH",
+          body: updatedInfo,
+        };
+      },
       invalidatesTags: ["smartphone"],
     }),
+
     deleteSmartphone: builder.mutation({
       query: (id) => ({
         url: `/smartphones/${id}`,
