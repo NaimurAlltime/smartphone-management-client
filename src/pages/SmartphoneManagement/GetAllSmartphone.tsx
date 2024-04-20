@@ -117,6 +117,15 @@ const GetAllSmartphone = () => {
             </button>
           </Link>
 
+          <Link
+            to={`/duplicate-smartphone/${record.key}`}
+            state={{ data: record }}
+          >
+            <button className="mx-2 flex justify-center items-center gap-1 border border-gray-300 px-1.5 py-0.5 rounded-sm bg-purple-500 text-white">
+              Duplicate
+            </button>
+          </Link>
+
           <button
             className="flex justify-center items-center gap-1 border border-gray-300 px-1 py-0.5 rounded-sm bg-red-500 text-white"
             onClick={() => handleDelete(record.key as string)}

@@ -14,19 +14,16 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useLocation, useNavigate } from "react-router-dom";
 import { StorageSizesArray } from "../../constant/storageSize.constant";
-import { useUpdateSmartphoneMutation } from "@/redux/features/smartphone/smartphoneApi";
 import dayjs from "dayjs";
+import { useAddSmartphoneApiMutation } from "@/redux/features/smartphone/smartphoneApi";
 
-const UpdateSmartphone = () => {
+const DuplicateSmartphone = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [updateSmartphone] = useUpdateSmartphoneMutation();
+  const [addSmartphoneApi] = useAddSmartphoneApiMutation();
   // const { role } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const cureentData = useLocation();
   const { data } = cureentData?.state || {};
-
-  //   console.log(data.key);
-  const productId = data.key;
 
   const defaultValues = {
     battery: data.battery,
@@ -88,7 +85,7 @@ const UpdateSmartphone = () => {
       storage
     ) {
       try {
-        const updatedInfo = {
+        const addSmartphone = {
           battery,
           brand,
           camera,
@@ -107,10 +104,7 @@ const UpdateSmartphone = () => {
           storage,
         };
 
-        const response = await updateSmartphone({
-          productId: productId,
-          updatedInfo: updatedInfo,
-        }).unwrap();
+        const response = await addSmartphoneApi(addSmartphone as any).unwrap();
 
         setIsLoading(false);
 
@@ -118,7 +112,7 @@ const UpdateSmartphone = () => {
           toast.success(response?.message, {
             duration: 2000,
           });
-          toast.success("Smartphone Updated Successfully!", {
+          toast.success("Smartphone Added Successfully!", {
             duration: 2000,
           });
           navigate(`/all-smartphone`);
@@ -146,7 +140,7 @@ const UpdateSmartphone = () => {
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
           <h3 className="font-medium text-center text-black dark:text-white">
-            Update Smartphone Form
+            Duplicate Smartphone Form
           </h3>
         </div>
         <div style={{ padding: "20px" }}>
@@ -380,7 +374,7 @@ const UpdateSmartphone = () => {
                       disabled={isLoading}
                       loading={isLoading}
                     >
-                      Update Smartphone
+                      Add Smartphone
                     </Button>
                   </Space>
                 </Form.Item>
@@ -393,4 +387,4 @@ const UpdateSmartphone = () => {
   );
 };
 
-export default UpdateSmartphone;
+export default DuplicateSmartphone;

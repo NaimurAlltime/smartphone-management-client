@@ -7,6 +7,7 @@ import SalesHistory from "../pages/SalesHistory/SalesHistory";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import CreateSmartphone from "@/pages/SmartphoneManagement/CreateSmartphone";
+import DuplicateSmartphone from "@/pages/SmartphoneManagement/DuplicateSmartphone";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "update-smartphone/:id",
         element: <UpdateSmartphone />,
+      },
+      {
+        path: "duplicate-smartphone/:id",
+        element: <DuplicateSmartphone />,
       },
 
       {
