@@ -4,17 +4,11 @@ import { TSale } from "@/types/sale.type";
 const saleApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getSaleHistory: builder.query({
-      query: ({ timeFrame }) => {
-        const params = new URLSearchParams();
-
-        if (timeFrame) params.append("timeFrame", timeFrame);
-
-        return {
-          url: `/sales?${params}`,
-          method: "GET",
-        };
-      },
-      providesTags: ["sale"],
+      query: (historyType) => ({
+        url: `/sales?historyType=${historyType}`,
+        method: "GET",
+      }),
+      providesTags: ["smartphone", "sale"],
     }),
 
     addSaleApi: builder.mutation({
@@ -23,7 +17,7 @@ const saleApi = baseApi.injectEndpoints({
         method: "POST",
         body: sale,
       }),
-      invalidatesTags: ["smartphone"],
+      invalidatesTags: ["smartphone", "sale"],
     }),
   }),
 });

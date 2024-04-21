@@ -104,7 +104,7 @@ const GetAllSmartphone = () => {
             className=""
             onClick={() => setSmartphoneId(record.key as string)}
           >
-            <SellModal smartphooneId={smartphoneId} />
+            <SellModal state={{ data: record }} smartphooneId={smartphoneId} />
           </button>
 
           <Link

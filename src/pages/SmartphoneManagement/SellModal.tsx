@@ -30,10 +30,10 @@ export default function SellModal({ smartphooneId }: string | any) {
     // console.log(data);
     try {
       const addSale = {
-        buyer_name: data.buyer_name,
+        buyerName: data.buyerName,
         quantity: Number(data.quantity),
-        sale_date: data.sale_date,
-        smartphoneId: smartphooneId,
+        saleDate: data.saleDate,
+        productId: smartphooneId,
       };
       console.log(addSale);
       const result = await addSaleApi(addSale as any).unwrap();
@@ -71,14 +71,14 @@ export default function SellModal({ smartphooneId }: string | any) {
                 Buyer Name
               </Label>
               <Input
-                id="buyer_name"
-                {...register("buyer_name", { required: true })}
+                id="buyerName"
+                {...register("buyerName", { required: true })}
                 placeholder="Example: Jhon Due"
                 className="col-span-3"
               />
             </div>
-            {errors.buyer_name && (
-              <span className="text-red-600">Buyer_name is required</span>
+            {errors.buyerName && (
+              <span className="text-red-600">buyerName is required</span>
             )}
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="username" className="text-right">
@@ -101,13 +101,13 @@ export default function SellModal({ smartphooneId }: string | any) {
               </Label>
               <Input
                 type="date"
-                id="sale_date"
-                {...register("sale_date", { required: true })}
+                id="saleDate"
+                {...register("saleDate", { required: true })}
                 className="col-span-3"
               />
             </div>
-            {errors.sale_date && (
-              <span className="text-red-600">Sale_date is required</span>
+            {errors.saleDate && (
+              <span className="text-red-600">saleDate is required</span>
             )}
           </div>
 

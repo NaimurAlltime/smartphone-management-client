@@ -31,3 +31,33 @@ export type TItemProps = {
   cameraQuality?: string;
   batteryLife?: string;
 };
+
+export type TSalesTableData = {
+  key?: string | number;
+  quantity?: number;
+  buyerName?: string;
+  saleDate?: string;
+  smartphoneImage?: string;
+  productName?: string;
+  totalPrice?: number;
+  price?: number;
+  week?: string;
+  totalSale?: number;
+  sales?: [
+    {
+      productId: string;
+      quantity: number;
+      buyerName: string;
+      saleDate: string;
+      productName: string;
+      smartphoneImage: string;
+      productPrice: number;
+    }
+  ];
+  _id?: {
+    day: number;
+    week: number;
+    month: number;
+    year: number;
+  };
+};

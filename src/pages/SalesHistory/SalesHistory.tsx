@@ -1,68 +1,160 @@
+import { Divider, Select, Table, TableColumnsType } from "antd";
+import { Layout } from "antd";
+import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import { v4 as uuidv4 } from "uuid";
+import { TSalesTableData } from "@/types/smartphone";
 import { useGetSaleHistoryQuery } from "@/redux/features/sale/saleApi";
-import { useState } from "react";
-import SaleHistoryTable from "./SaleHistoryTable";
+const { Content } = Layout;
+
+const options = [
+  { value: "daily", label: <span>Daily Sales</span> },
+  { value: "weekly", label: <span>Weekly Sales</span> },
+  { value: "monthly", label: <span>Monthly Sales</span> },
+  { value: "yearly", label: <span>Yearly Sales</span> },
+];
 
 const SalesHistory = () => {
-  const [timeFrame, seTimeFrame] = useState("");
-  const { data: saleHistory } = useGetSaleHistoryQuery({
-    timeFrame: timeFrame,
-  });
+  const [slaesHistoryType, setSlaesHistoryType] = useState("daily");
+  const { data, isLoading, isFetching } =
+    useGetSaleHistoryQuery(slaesHistoryType);
+  const [salesInfo, setSalesInfo] = useState<TSalesTableData[]>();
+
+  useEffect(() => {
+    if (data && !isLoading && !isFetching) {
+      const salesinfoArr = data.data.map((sale: TSalesTableData) => {
+        let formattedDate;
+
+        if (slaesHistoryType === "daily" && sale._id) {
+          formattedDate = dayjs(
+            `${sale._id.year}-${sale._id.month}-${sale._id.day}`
+          ).format("dddd, MMMM D, YYYY");
+        } else if (slaesHistoryType === "weekly" && sale._id) {
+          formattedDate = `Week number: ${sale._id.week}`;
+        } else if (slaesHistoryType === "monthly" && sale._id) {
+          formattedDate = dayjs(`${sale._id.year}-${sale._id.month}`).format(
+            "MMMM YYYY"
+          );
+        } else if (slaesHistoryType === "yearly" && sale._id) {
+          formattedDate = `Year: ${sale._id.year?.toString()}`;
+        }
+
+        return {
+          key: uuidv4(),
+          week: formattedDate,
+          totalSale: sale.totalSale,
+          sales: sale.sales,
+        };
+      });
+
+      setSalesInfo(salesinfoArr as TSalesTableData[]);
+    }
+  }, [data, isLoading, slaesHistoryType, isFetching]);
+
+  const expandedRowRender = (record: TSalesTableData) => {
+    const nestedRowColumns: TableColumnsType<TSalesTableData> = [
+      {
+        title: "Product Name",
+        dataIndex: "productName",
+      },
+      {
+        title: "Buyer Name",
+        dataIndex: "buyerName",
+      },
+      {
+        title: "Date",
+        dataIndex: "saleDate",
+      },
+      {
+        title: "Quantity",
+        dataIndex: "quantity",
+      },
+      {
+        title: "Total Price",
+        dataIndex: "totalPrice",
+      },
+    ];
+
+    const dataSource: TSalesTableData[] = [];
+
+    if (record?.sales) {
+      if (record?.sales?.length > 0) {
+        record?.sales?.forEach((sale) => {
+          dataSource.push({
+            key: uuidv4(),
+            quantity: sale.quantity,
+            buyerName: sale.buyerName,
+            saleDate: sale.saleDate,
+            smartphoneImage: sale.smartphoneImage,
+            productName: sale.productName,
+            totalPrice: sale.productPrice * sale.quantity,
+            price: sale.productPrice,
+          });
+        });
+      }
+    }
+
+    return (
+      <Table
+        columns={nestedRowColumns}
+        dataSource={dataSource}
+        pagination={false}
+      />
+    );
+  };
+
+  // Define the table data
+  const tableData: TSalesTableData[] = [];
+
+  // Populate tableData based on salesInfo
+  if (salesInfo && !isLoading) {
+    salesInfo.forEach((sales) => {
+      tableData.push({
+        key: sales.key,
+        week: sales.week,
+        totalSale: sales.totalSale,
+        sales: sales.sales,
+      });
+    });
+  }
+
+  const columns: TableColumnsType<TSalesTableData> = [
+    {
+      title: `${slaesHistoryType.toUpperCase()} SALES`,
+      dataIndex: "week",
+      key: "week",
+    },
+    { title: "TOTAL SALES", dataIndex: "totalSale", key: "totalSale" },
+  ];
+
+  const handleSalesHistoryType = (data: string) => {
+    setSlaesHistoryType(data);
+  };
 
   return (
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="py-6 px-4 text-center md:px-6 xl:px-7.5">
-        <h4 className="text-xl font-semibold text-black dark:text-white">
-          All Smartphone Sales History
-        </h4>
-      </div>
-
-      <div className="">
-        <select
-          onChange={(e) => seTimeFrame(e.target?.value)}
-          name=""
-          id=""
-          className="border border-[#0874c4]  py-4 md:py-0.5 my-3 p-2 bg-slate-300 rounded-md focus:outline-none focus:border-blue-500  md:ml-3"
-        >
-          <option defaultChecked> Filter By Date</option>
-          <option value="weekly">Weekly</option>
-          <option value="daily">Daily</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly"> Yearly </option>
-        </select>
-      </div>
-
-      <div className="flex flex-col">
-        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-            <div className="overflow-hidden">
-              <table className="min-w-full text-left text-sm font-light">
-                <thead className="border-b font-medium dark:border-neutral-500">
-                  <tr>
-                    <th scope="col" className="px-6 py-4">
-                      #
-                    </th>
-                    <th scope="col" className="px-6 py-4">
-                      Buyer Name
-                    </th>
-                    <th scope="col" className="px-6 py-4">
-                      Quantity
-                    </th>
-                    <th scope="col" className="px-6 py-4">
-                      Sale Date
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {saleHistory?.data.map((item) => (
-                    <SaleHistoryTable key={item._id} item={item} />
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+    <>
+      <Content style={{ padding: "10px" }}>
+        <div>
+          <Select
+            popupMatchSelectWidth={false}
+            options={options}
+            placeholder="Select Sales History Type"
+            onChange={handleSalesHistoryType}
+          />
         </div>
-      </div>
-    </div>
+        <Divider />
+        <Table
+          columns={columns}
+          expandable={{ expandedRowRender, defaultExpandedRowKeys: ["0"] }}
+          dataSource={tableData}
+          loading={isLoading && isFetching}
+          pagination={{
+            position: ["bottomCenter"],
+            pageSize: 12,
+          }}
+        />
+      </Content>
+    </>
   );
 };
 
