@@ -12,20 +12,8 @@ export const generateInvoicePDF = (
   // Set font size and style
   pdf.setFontSize(10);
 
-  // Company Name
-  pdf.setFontSize(16);
-  pdf.text("Company Name", 14, 15);
-
-  // Company address
-  pdf.setFontSize(11);
-  pdf.text("company address", 14, 22);
-
-  // Company contact number
-  pdf.setFontSize(11);
-  pdf.text("company contact number", 14, 27);
-
   // Buyer Name and Sell Date
-  pdf.setFontSize(10);
+  pdf.setFontSize(15);
   pdf.text(`Buyer Name: ${buyerName}`, 14, 40);
   pdf.text(`Date: ${sellDate}`, 14, 45);
 
