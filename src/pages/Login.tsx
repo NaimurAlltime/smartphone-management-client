@@ -26,7 +26,7 @@ function Login() {
   // };
 
   const handleLogin = async (data: FieldValues) => {
-    console.log(data);
+    // console.log(data);
     const toastId = toast.loading("Log in loading");
     try {
       const userInfo = {
@@ -41,8 +41,11 @@ function Login() {
         duration: 2000,
       });
       navigate("/");
-    } catch (error) {
-      toast.error("something went wrong!", { id: toastId, duration: 2000 });
+    } catch (err: any) {
+      toast.error(err?.data?.errorMessage || "something went wrong!", {
+        id: toastId,
+        duration: 2000,
+      });
     }
   };
 
