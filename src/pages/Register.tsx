@@ -6,6 +6,8 @@ import { useAddUserMutation } from "../redux/features/auth/authApi";
 import "../styles/dashboard.css";
 import { toast } from "sonner";
 import { setRegister } from "../redux/features/auth/authSlice";
+import { Select } from "antd";
+const { Option } = Select;
 
 function Register() {
   const navigate = useNavigate();
@@ -43,17 +45,33 @@ function Register() {
   };
 
   return (
-    <div className="w-[500px] h-[100%] mx-auto mt-[10%]">
+    <div className="w-[500px] h-[100%] mx-auto mt-[2%]">
       {/* <!-- Sign In Form --> */}
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-          <h3 className="font-medium text-center text-black dark:text-white">
+          <h3 className="font-medium text-xl text-center text-black dark:text-white">
             Register Form
           </h3>
         </div>
-        <form className="p-6.5 ps-1" onSubmit={handleSubmit(handleRegister)}>
+        <form className="p-4" onSubmit={handleSubmit(handleRegister)}>
           <div className="mb-4.5">
-            <label className="mb-2.5 block text-black dark:text-white">
+            <label className="mb-1.5 block text-black dark:text-white">
+              Full Name
+            </label>
+            <input
+              type="text"
+              {...register("fullName", { required: true })}
+              name="fullName"
+              id="fullName"
+              placeholder="Enter your Full Name"
+              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+            />
+            {errors.username && (
+              <span className="text-red-600">Username is required</span>
+            )}
+          </div>
+          <div className="mb-4.5">
+            <label className="mb-1.5 block text-black dark:text-white">
               Username
             </label>
             <input
@@ -62,7 +80,7 @@ function Register() {
               name="username"
               id="username"
               placeholder="Enter your username"
-              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
             {errors.username && (
               <span className="text-red-600">Username is required</span>
@@ -70,7 +88,7 @@ function Register() {
           </div>
 
           <div className="mb-4.5">
-            <label className="mb-2.5 block text-black dark:text-white">
+            <label className="mb-1.5 block text-black dark:text-white">
               Email
             </label>
             <input
@@ -79,7 +97,7 @@ function Register() {
               name="email"
               id="email"
               placeholder="Enter your Email"
-              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
             {errors.email && (
               <span className="text-red-600">Email is required</span>
@@ -87,7 +105,7 @@ function Register() {
           </div>
 
           <div>
-            <label className="mb-2.5 block text-black dark:text-white">
+            <label className="mb-1.5 block text-black dark:text-white">
               Password
             </label>
             <input
@@ -100,7 +118,7 @@ function Register() {
               name="password"
               id="password"
               placeholder="Enter password"
-              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
             {errors.password?.type === "required" && (
               <p className="text-red-600">Password is required</p>
@@ -116,7 +134,7 @@ function Register() {
           </div>
 
           <div>
-            <label className="mb-2.5 block text-black dark:text-white">
+            <label className="mb-1.5 block text-black dark:text-white">
               Confirm Password
             </label>
             <input
@@ -130,13 +148,47 @@ function Register() {
               id="confirmPassword"
               name="confirmPassword"
               placeholder="Enter confirm password"
-              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
             {errors.confirmPassword && (
               <p className="text-red-600">
                 {(errors.confirmPassword.message as string) ||
                   "Passwords do not match!"}
               </p>
+            )}
+          </div>
+
+          <div className="mb-4.5">
+            <label className="mb-1.5 block text-black dark:text-white">
+              Role
+            </label>
+            <select
+              name="role"
+              id="role"
+              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+            >
+              <option value="seller">Seller</option>
+              <option value="branch-manager">Branch Manager</option>
+            </select>
+            {errors.username && (
+              <span className="text-red-600">Username is required</span>
+            )}
+          </div>
+
+          <div className="mb-4.5 mt-1">
+            <label className="mb-1.5 block text-black dark:text-white">
+              Profile Picture
+            </label>
+            <input
+              type="text"
+              {...register("profileImage", { required: true })}
+              name="profileImage"
+              id="profileImage"
+              placeholder="Enter your profile Image"
+              className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+            />
+            {errors.username && (
+              <span className="text-red-600">Username is required</span>
             )}
           </div>
 
