@@ -6,8 +6,6 @@ import { useAddUserMutation } from "../redux/features/auth/authApi";
 import "../styles/dashboard.css";
 import { toast } from "sonner";
 import { setRegister } from "../redux/features/auth/authSlice";
-import { Select } from "antd";
-const { Option } = Select;
 
 function Register() {
   const navigate = useNavigate();
@@ -27,9 +25,11 @@ function Register() {
 
     try {
       const userInfo = {
+        fullName: data.fullName,
         username: data.username,
         email: data.email,
         password: data.password,
+        role: data.role,
       };
 
       const res = await addUser(userInfo).unwrap();
@@ -39,7 +39,8 @@ function Register() {
         duration: 2000,
       });
       navigate("/login");
-    } catch (error) {
+    } catch (err: any) {
+      // console.log(err);
       toast.error("something went wrong!", { duration: 2000 });
     }
   };
@@ -66,8 +67,8 @@ function Register() {
               placeholder="Enter your Full Name"
               className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
-            {errors.username && (
-              <span className="text-red-600">Username is required</span>
+            {errors.fullName && (
+              <span className="text-red-600">Full Name is required</span>
             )}
           </div>
           <div className="mb-4.5">
@@ -163,6 +164,7 @@ function Register() {
               Role
             </label>
             <select
+              {...register("role", { required: true })}
               name="role"
               id="role"
               className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -170,8 +172,8 @@ function Register() {
               <option value="seller">Seller</option>
               <option value="branch-manager">Branch Manager</option>
             </select>
-            {errors.username && (
-              <span className="text-red-600">Username is required</span>
+            {errors.role && (
+              <span className="text-red-600">Role is required</span>
             )}
           </div>
 
@@ -181,15 +183,12 @@ function Register() {
             </label>
             <input
               type="text"
-              {...register("profileImage", { required: true })}
+              {...register("profileImage")}
               name="profileImage"
               id="profileImage"
               placeholder="Enter your profile Image"
               className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
-            {errors.username && (
-              <span className="text-red-600">Username is required</span>
-            )}
           </div>
 
           <div className="mt-5 mb-5.5 flex items-center justify-between">
