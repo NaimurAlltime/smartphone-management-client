@@ -120,20 +120,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </h3>
 
             <ul className="mb-6 flex flex-col gap-1.5">
-              {/* <!-- Menu Item Dashboard --> */}{" "}
-              <li>
-                <NavLink
-                  to="/dashboard/admin-home"
-                  className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
-                    pathname.includes("/dashboard/admin-home") &&
-                    "bg-gray-900 dark:bg-gray-500"
-                  }`}
-                >
-                  <AiOutlineHome className="text-lg" />
-                  Admin Home
-                </NavLink>
-              </li>
-              {/* <!-- Menu Item Dashboard --> */}
               {/* <!-- Menu Item smartphone --> */}
               <SidebarLinkGroup
                 activeCondition={
@@ -247,7 +233,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Profile --> */}
               <li>
                 <NavLink
-                  to="/profile"
+                  to="/my-profile"
                   className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
                     pathname.includes("profile") &&
                     "bg-gray-900 dark:bg-gray-500"
@@ -270,7 +256,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       fill=""
                     />
                   </svg>
-                  Profile
+                  My Profile
                 </NavLink>
               </li>
               {/* <!-- Menu Item Profile --> */}

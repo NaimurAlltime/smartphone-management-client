@@ -8,6 +8,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import CreateSmartphone from "@/pages/SmartphoneManagement/CreateSmartphone";
 import DuplicateSmartphone from "@/pages/SmartphoneManagement/DuplicateSmartphone";
+import MyProfile from "@/pages/MyProfile/MyProfile";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "history-management",
         element: <SalesHistory />,
+      },
+      {
+        path: "my-profile",
+        element: <MyProfile />,
       },
     ],
   },

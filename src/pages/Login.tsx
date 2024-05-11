@@ -38,7 +38,7 @@ function Login() {
         id: toastId,
         duration: 2000,
       });
-      navigate("/");
+      navigate("/my-profile");
     } catch (err: any) {
       toast.error(err?.data?.errorMessage || "something went wrong!", {
         id: toastId,
