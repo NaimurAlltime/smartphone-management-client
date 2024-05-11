@@ -1,8 +1,7 @@
 import { FieldValues } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
-import { TUser, setUser } from "../redux/features/auth/authSlice";
-import { verifyToken } from "../utils/verifyToken";
+import { setUser } from "../redux/features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import "../styles/dashboard.css";
@@ -34,8 +33,7 @@ function Login() {
         password: data.password,
       };
       const res = await login(userInfo).unwrap();
-      const user: TUser = verifyToken(res.data.token);
-      dispatch(setUser({ user: user, token: res.data.token }));
+      dispatch(setUser({ user: res.data.user, token: res.data.token }));
       toast.success("Login Successfully done!", {
         id: toastId,
         duration: 2000,
