@@ -30,6 +30,7 @@ function Register() {
         email: data.email,
         password: data.password,
         role: data.role,
+        profileImage: data.profileImage,
       };
 
       const res = await addUser(userInfo).unwrap();
@@ -179,14 +180,14 @@ function Register() {
 
           <div className="mb-4.5 mt-1">
             <label className="mb-1.5 block text-black dark:text-white">
-              Profile Picture
+              Profile Picture URL
             </label>
             <input
               type="text"
               {...register("profileImage")}
               name="profileImage"
               id="profileImage"
-              placeholder="Enter your profile Image"
+              placeholder="Enter your profile Image URL"
               className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
             />
           </div>

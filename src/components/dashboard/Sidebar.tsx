@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { AiOutlineHome } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
-import { TbPackages } from "react-icons/tb";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import logo from "../../assets/logo/logo.png";
 import "../../styles/dashboard.css";
@@ -12,6 +10,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { IoListCircleOutline } from "react-icons/io5";
 import { useAppDispatch } from "@/redux/hooks";
 import { logout } from "@/redux/features/auth/authSlice";
+import { useSelector } from "react-redux";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -22,6 +21,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const location = useLocation();
   const { pathname } = location;
   const dispatch = useAppDispatch();
+
+  const user = useSelector((state: any) => state.auth.user);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -182,18 +183,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               All Smartphone
                             </NavLink>
                           </li>
-                          <li>
-                            <NavLink
-                              to="/add-smartphone"
-                              className={({ isActive }) =>
-                                "group relative flex items-center gap-1 rounded-md px-4 font-medium text-gray-400 duration-300 ease-in-out hover:text-white " +
-                                (isActive && "!text-white")
-                              }
-                            >
-                              <IoMdAddCircleOutline className="text-xl" />
-                              Add Smartphone
-                            </NavLink>
-                          </li>
+                          {(user?.role === "super-admin" ||
+                            user?.role === "branch-manager") && (
+                            <li>
+                              <NavLink
+                                to="/add-smartphone"
+                                className={({ isActive }) =>
+                                  "group relative flex items-center gap-1 rounded-md px-4 font-medium text-gray-400 duration-300 ease-in-out hover:text-white " +
+                                  (isActive && "!text-white")
+                                }
+                              >
+                                <IoMdAddCircleOutline className="text-xl" />
+                                Add Smartphone
+                              </NavLink>
+                            </li>
+                          )}
                         </ul>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}
@@ -203,32 +207,36 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </SidebarLinkGroup>
               {/* <!-- Menu item smartphone --> */}
               {/* <!-- Menu Item sales management --> */}{" "}
-              <li>
-                <NavLink
-                  to="/sales-management"
-                  className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
-                    pathname.includes("sales-management") &&
-                    "bg-gray-900 dark:bg-gray-500"
-                  }`}
-                >
-                  <MdOutlineManageSearch className="text-xl" />
-                  Sales Management
-                </NavLink>
-              </li>
+              {(user?.role === "super-admin" || user?.role === "seller") && (
+                <li>
+                  <NavLink
+                    to="/sales-management"
+                    className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
+                      pathname.includes("sales-management") &&
+                      "bg-gray-900 dark:bg-gray-500"
+                    }`}
+                  >
+                    <MdOutlineManageSearch className="text-xl" />
+                    Sales Management
+                  </NavLink>
+                </li>
+              )}
               {/* <!-- Menu Item sales management  --> */}
               {/* <!-- Menu Item history management --> */}{" "}
-              <li>
-                <NavLink
-                  to="/history-management"
-                  className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
-                    pathname.includes("history-management") &&
-                    "bg-gray-900 dark:bg-gray-500"
-                  }`}
-                >
-                  <MdOutlineManageHistory className="text-xl" />
-                  History Management
-                </NavLink>
-              </li>
+              {user?.role === "super-admin" && (
+                <li>
+                  <NavLink
+                    to="/history-management"
+                    className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
+                      pathname.includes("history-management") &&
+                      "bg-gray-900 dark:bg-gray-500"
+                    }`}
+                  >
+                    <MdOutlineManageHistory className="text-xl" />
+                    History Management
+                  </NavLink>
+                </li>
+              )}
               {/* <!-- Menu Item history management  --> */}
               {/* <!-- Menu Item Profile --> */}
               <li>

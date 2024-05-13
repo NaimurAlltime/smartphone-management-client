@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import SellModal from "./SellModal";
 import ProductListFilter from "./ProductListFilter";
 import { useAppSelector } from "@/redux/hooks";
+import { useSelector } from "react-redux";
 
 interface DataType {
   key: React.Key;
@@ -32,6 +33,8 @@ const GetAllSmartphone = () => {
   const [deleteSmartphone] = useDeleteSmartphoneMutation();
   const { productFilterQuery } = useAppSelector((state) => state.filter);
   const { data, isLoading } = useGetProductsQuery(productFilterQuery);
+
+  const user = useSelector((state: any) => state.auth.user);
 
   let content: JSX.Element | null = null; // Declare content variable here
 
@@ -100,39 +103,52 @@ const GetAllSmartphone = () => {
         record // Changed `_` to `record` to access the current record
       ) => (
         <Space size="small">
-          <button
-            className=""
-            onClick={() => setSmartphoneId(record.key as string)}
-          >
-            <SellModal state={{ data: record }} smartphooneId={smartphoneId} />
-          </button>
-
-          <Link
-            to={`/update-smartphone/${record.key}`}
-            state={{ data: record }}
-          >
-            <button className="mx-3 flex justify-center items-center gap-1 border border-gray-300 px-1.5 py-0.5 rounded-sm bg-sky-500 text-white">
-              Edit
-              <FaRegEdit className="text-lg" />
+          {(user?.role === "super-admin" || user?.role === "seller") && (
+            <button
+              className=""
+              onClick={() => setSmartphoneId(record.key as string)}
+            >
+              <SellModal
+                state={{ data: record }}
+                smartphooneId={smartphoneId}
+              />
             </button>
-          </Link>
+          )}
 
-          <Link
-            to={`/duplicate-smartphone/${record.key}`}
-            state={{ data: record }}
-          >
-            <button className="mx-2 flex justify-center items-center gap-1 border border-gray-300 px-1.5 py-0.5 rounded-sm bg-purple-500 text-white">
-              Duplicate
+          {(user?.role === "super-admin" ||
+            user?.role === "branch-manager") && (
+            <Link
+              to={`/update-smartphone/${record.key}`}
+              state={{ data: record }}
+            >
+              <button className="mx-3 flex justify-center items-center gap-1 border border-gray-300 px-1.5 py-0.5 rounded-sm bg-sky-500 text-white">
+                Edit
+                <FaRegEdit className="text-lg" />
+              </button>
+            </Link>
+          )}
+
+          {(user?.role === "super-admin" ||
+            user?.role === "branch-manager") && (
+            <Link
+              to={`/duplicate-smartphone/${record.key}`}
+              state={{ data: record }}
+            >
+              <button className="mx-2 flex justify-center items-center gap-1 border border-gray-300 px-1.5 py-0.5 rounded-sm bg-purple-500 text-white">
+                Duplicate
+              </button>
+            </Link>
+          )}
+
+          {user?.role === "super-admin" && (
+            <button
+              className="flex justify-center items-center gap-1 border border-gray-300 px-1 py-0.5 rounded-sm bg-red-500 text-white"
+              onClick={() => handleDelete(record.key as string)}
+            >
+              Delete
+              <RiDeleteBinLine className="text-lg" />
             </button>
-          </Link>
-
-          <button
-            className="flex justify-center items-center gap-1 border border-gray-300 px-1 py-0.5 rounded-sm bg-red-500 text-white"
-            onClick={() => handleDelete(record.key as string)}
-          >
-            Delete
-            <RiDeleteBinLine className="text-lg" />
-          </button>
+          )}
         </Space>
       ),
     },
@@ -169,7 +185,7 @@ const GetAllSmartphone = () => {
         toast.success(response?.message, {
           duration: 2000,
         });
-        toast.success("Smartphone Updated Successfully!", {
+        toast.success("Smartphone Deleted Successfully!", {
           duration: 2000,
         });
       }
@@ -220,21 +236,23 @@ const GetAllSmartphone = () => {
         <ProductListFilter />
 
         <div style={{ padding: "10px" }}>
-          <div style={{ marginBottom: 16 }}>
-            <Button
-              type="primary"
-              size="large"
-              onClick={deleteProducts}
-              disabled={!hasSelected}
-              loading={loading}
-              danger
-            >
-              Delete Products
-            </Button>
-            <span style={{ marginLeft: 8 }}>
-              {hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}
-            </span>
-          </div>
+          {user?.role === "super-admin" && (
+            <div style={{ marginBottom: 16 }}>
+              <Button
+                type="primary"
+                size="large"
+                onClick={deleteProducts}
+                disabled={!hasSelected}
+                loading={loading}
+                danger
+              >
+                Delete Products
+              </Button>
+              <span style={{ marginLeft: 8 }}>
+                {hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}
+              </span>
+            </div>
+          )}
 
           {!isLoading && data?.data?.length === 0 ? (
             <Empty
