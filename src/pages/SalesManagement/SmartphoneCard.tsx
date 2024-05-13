@@ -5,8 +5,7 @@ import DetailsModal from "./DetailsModal";
 
 export default function SmartphoneCard({ item }: ItemsProps) {
   const [smartphooneId, setSmartphooneId] = useState("");
-  const { _id, name, price, quantity, brand, model, details, smartphoneImage } =
-    item;
+  const { _id, name, quantity, details, smartphoneImage } = item;
   return (
     <div className="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
       <a href="#!">

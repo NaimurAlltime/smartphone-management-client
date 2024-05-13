@@ -9,6 +9,7 @@ import Register from "../pages/Register";
 import CreateSmartphone from "@/pages/SmartphoneManagement/CreateSmartphone";
 import DuplicateSmartphone from "@/pages/SmartphoneManagement/DuplicateSmartphone";
 import MyProfile from "@/pages/MyProfile/MyProfile";
+import NotFound from "@/pages/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

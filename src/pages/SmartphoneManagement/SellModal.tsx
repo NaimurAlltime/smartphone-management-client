@@ -24,7 +24,6 @@ export default function SellModal({ smartphooneId }: string | any) {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm();
 
   const [addSaleApi] = useAddSaleApiMutation();

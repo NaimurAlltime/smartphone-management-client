@@ -1,6 +1,6 @@
 import { SaleItemsProps } from "@/types/items.type";
 
-export default function SaleHistoryTable({ item }: SaleItemsProps) {
+export default function SaleHistoryTable({ item }: { item: SaleItemsProps }) {
   const { buyer_name, quantity, sale_date } = item;
   return (
     <>
