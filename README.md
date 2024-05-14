@@ -5,7 +5,7 @@ This is `Smartphone Management System` for a warehouse. The main purpose of the 
 ### Live Link
 
 ```bash
-https://
+https://smartphone-management-client-side.netlify.app/
 ```
 
 ## Key Features
