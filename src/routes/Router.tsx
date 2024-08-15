@@ -10,6 +10,7 @@ import CreateSmartphone from "@/pages/SmartphoneManagement/CreateSmartphone";
 import DuplicateSmartphone from "@/pages/SmartphoneManagement/DuplicateSmartphone";
 import MyProfile from "@/pages/MyProfile/MyProfile";
 import NotFound from "@/pages/NotFound";
+import Dashboard from "@/pages/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "my-profile",
         element: <MyProfile />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
       },
     ],
   },

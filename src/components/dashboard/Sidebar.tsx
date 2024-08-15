@@ -6,6 +6,7 @@ import logo from "../../assets/logo/logo.png";
 import "../../styles/dashboard.css";
 import { MdOutlineManageHistory } from "react-icons/md";
 import { MdOutlineManageSearch } from "react-icons/md";
+import { FaHome } from "react-icons/fa";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { IoListCircleOutline } from "react-icons/io5";
 import { useAppDispatch } from "@/redux/hooks";
@@ -121,6 +122,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </h3>
 
             <ul className="mb-6 flex flex-col gap-1.5">
+                    {/* <!-- Menu Item Profile --> */}
+                    <li>
+                <NavLink
+                  to="/dashboard"
+                  className={`group relative flex items-center gap-1 rounded-sm py-2 px-4 font-medium text-gray-300 duration-300 ease-in-out hover:bg-gray-900 dark:hover:bg-gray-900 ${
+                    pathname.includes("dashboard") &&
+                    "bg-gray-900 dark:bg-gray-500"
+                  }`}
+                >
+               <FaHome className="text-xl" />
+                 Dashboard
+                </NavLink>
+              </li>
+              {/* <!-- Menu Item Profile --> */}
               {/* <!-- Menu Item smartphone --> */}
               <SidebarLinkGroup
                 activeCondition={
@@ -264,7 +279,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       fill=""
                     />
                   </svg>
-                  My Profile
+                 Profile
                 </NavLink>
               </li>
               {/* <!-- Menu Item Profile --> */}
