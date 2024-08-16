@@ -74,8 +74,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   return (
     <aside
+    style={{ zIndex: "999999" }}
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72 pt-2 lg:pt-2 flex-col overflow-y-hidden custom-sidebar-bg duration-300 ease-linear dark:bg-slate-950 lg:static lg:translate-x-0 ${
+      className={`absolute left-0 top-0 flex h-screen w-72 pt-2 lg:pt-2 flex-col overflow-y-hidden custom-sidebar-bg duration-300 ease-linear dark:bg-slate-950 lg:static lg:translate-x-0 ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
