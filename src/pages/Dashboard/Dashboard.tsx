@@ -5,16 +5,19 @@ import CardDataStats from './components/CardDataStats';
 import ChartOne from './components/ChartOne';
 import ChartTwo from './components/ChartTwo';
 import TableOne from './components/TableOne';
+import { useGetSaleHistoryQuery } from '@/redux/features/sale/saleApi';
 
 const Dashboard: React.FC = () => {
+  const { data } = useGetSaleHistoryQuery("yearly");
+  const totalSale = data?.totalSale;
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Total views" total="$3.456K" rate="0.43%" levelUp>
+        <CardDataStats title="Total views" total="3.456K" rate="0.67%" levelUp>
           <svg
-            className="fill-primary dark:fill-white"
-            width="22"
-            height="16"
+            className="fill-[#3c50e0] dark:fill-white"
+            width="25"
+            height="18"
             viewBox="0 0 22 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -29,9 +32,9 @@ const Dashboard: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
+        <CardDataStats title="Total Sale" total="56"  rate="4.35%" levelUp>
           <svg
-            className="fill-primary dark:fill-white"
+            className="fill-[#3c50e0] dark:fill-white"
             width="20"
             height="22"
             viewBox="0 0 20 22"
@@ -52,9 +55,9 @@ const Dashboard: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Product" total="2.450" rate="2.59%" levelUp>
+        <CardDataStats title="Total Product" total="150" rate="2.59%" levelUp>
           <svg
-            className="fill-primary dark:fill-white"
+            className="fill-[#3c50e0] dark:fill-white"
             width="22"
             height="22"
             viewBox="0 0 22 22"
@@ -71,9 +74,9 @@ const Dashboard: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Users" total="3.456" rate="0.95%" levelDown>
+        <CardDataStats title="Total Users" total="456" rate="0.95%" levelDown>
           <svg
-            className="fill-primary dark:fill-white"
+            className="fill-[#3c50e0] dark:fill-white"
             width="22"
             height="18"
             viewBox="0 0 22 18"
