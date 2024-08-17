@@ -1,15 +1,14 @@
 import React from 'react';
 
-
 import CardDataStats from './components/CardDataStats';
 import ChartOne from './components/ChartOne';
 import ChartTwo from './components/ChartTwo';
 import TableOne from './components/TableOne';
-import { useGetSaleHistoryQuery } from '@/redux/features/sale/saleApi';
+
 
 const Dashboard: React.FC = () => {
-  const { data } = useGetSaleHistoryQuery("yearly");
-  const totalSale = data?.totalSale;
+  // const { data } = useGetSaleHistoryQuery("yearly");
+  // const totalSale = data?.totalSale;
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
